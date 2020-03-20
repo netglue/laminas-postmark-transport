@@ -46,6 +46,9 @@ class ConfigProvider
     /** @return mixed[] */
     private function postmarkConfig() : array
     {
-        return ['cache_service' => null];
+        return [
+            'cache_service' => null,
+            'message_validator' => null,
+        ];
     }
 }

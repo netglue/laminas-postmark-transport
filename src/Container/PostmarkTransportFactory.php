@@ -17,9 +17,12 @@ class PostmarkTransportFactory
         $validators = $container->get(ValidatorPluginManager::class);
         assert($validators instanceof ValidatorPluginManager);
 
+        $config = $container->get('config')['postmark'] ?? [];
+        $validatorId = $config['message_validator'] ?? MessageValidator::class;
+
         return new PostmarkTransport(
             $container->get(PostmarkClient::class),
-            $validators->get(MessageValidator::class)
+            $validators->get($validatorId)
         );
     }
 }
