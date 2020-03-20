@@ -18,7 +18,7 @@ class PermittedSendersFactory
             throw new RuntimeException(
                 'In order to use the permitted senders helper, a cache service must be defined in ' .
                 'configuration under the key [postmark][cache_service] that resolves to a Psr\Cache\CacheItemPoolInterface ' .
-                'implementation on your choosing.'
+                'implementation of your choosing.'
             );
         }
 
