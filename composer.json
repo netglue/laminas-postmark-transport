@@ -55,7 +55,7 @@
     },
     "extra": {
         "laminas": {
-            "component": "Netglue\\Mail\\Postmark\\ConfigProvider"
+            "config-provider": "Netglue\\Mail\\Postmark\\ConfigProvider"
         }
     }
 }
