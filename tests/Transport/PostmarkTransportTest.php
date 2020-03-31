@@ -22,6 +22,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use function assert;
 use function fopen;
 use function reset;
+use function sprintf;
 
 class PostmarkTransportTest extends TestCase
 {
@@ -41,6 +42,13 @@ class PostmarkTransportTest extends TestCase
     private function transport() : PostmarkTransport
     {
         return new PostmarkTransport($this->client->reveal(), $this->validator);
+    }
+
+    private function networkTransport() : PostmarkTransport
+    {
+        $client = new PostmarkClient('POSTMARK_API_TEST');
+
+        return new PostmarkTransport($client, new ValidatorChain());
     }
 
     private function messageWillNotBeSent() : void
@@ -114,6 +122,25 @@ class PostmarkTransportTest extends TestCase
         yield 'Message 1' => [$message];
     }
 
+    /** @param mixed[] $headers */
+    private function assertHeaderArrayContainsHeaderName(array $headers, string $headerName) : void
+    {
+        $this->assertArrayHasKey($headerName, $headers, sprintf(
+            'The header named %s was not not found in the input',
+            $headerName
+        ));
+    }
+
+    /**
+     * @param mixed[] $headers
+     * @param mixed   $expect
+     */
+    private function assertHeaderEqualsValue(array $headers, string $headerName, $expect) : void
+    {
+        $this->assertHeaderArrayContainsHeaderName($headers, $headerName);
+        $this->assertEquals($expect, $headers[$headerName]);
+    }
+
     /** @dataProvider getMessage */
     public function testClientIsProvidedWithExpectedValues(PostmarkMessage $message) : void
     {
@@ -129,9 +156,7 @@ class PostmarkTransportTest extends TestCase
             '<cc@example.com>,<cc2@example.com>',
             '<bcc@example.com>',
             Argument::that(function ($headers) {
-                $this->assertIsArray($headers);
-                $this->assertArrayHasKey('X-Foo', $headers);
-                $this->assertEquals('bar', $headers['X-Foo']);
+                $this->assertHeaderEqualsValue($headers, 'X-Foo', 'bar');
 
                 return true;
             }),
@@ -170,10 +195,10 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             null,
-            Argument::type('array'),
-            [],
             null,
-            []
+            null,
+            null,
+            null
         )->shouldBeCalled();
 
         $this->transport()->send($message);
@@ -211,15 +236,15 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             Argument::type('array'),
-            [],
             null,
-            []
+            null,
+            null
         )->shouldBeCalled();
 
         $this->transport()->send($message);
     }
 
-    public function testThatWithMimeTextMessage() : void
+    public function testThatAMimeEncodedPlainTextMessageIsOk() : void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -249,21 +274,149 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             Argument::type('array'),
-            [],
             null,
-            []
+            null,
+            null
         )->shouldBeCalled();
 
         $this->transport()->send($message);
     }
 
+    public function testThatTheContentTypeHeaderIsStripped() : void
+    {
+        $message = new LaminasMessage();
+        $message->setFrom('a@example.com');
+        $message->setTo('b@example.com');
+        $message->setSubject('Foo');
+
+        $part = new Part();
+        $part->type = Mime::TYPE_TEXT;
+        $part->charset = 'utf-8';
+        $part->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+        $part->setContent('Some Text');
+
+        $mime = new Message();
+        $mime->addPart($part);
+
+        $message->setBody($mime);
+
+        $headers = $message->getHeaders();
+        $this->assertTrue($headers->has('Date'));
+
+        $this->client->sendEmail(
+            '<a@example.com>',
+            '<b@example.com>',
+            'Foo',
+            null,
+            'Some Text',
+            null,
+            true,
+            null,
+            null,
+            null,
+            Argument::that(function ($headerArray) {
+                $this->assertArrayNotHasKey('Content-Type', $headerArray);
+
+                return true;
+            }),
+            null,
+            null,
+            null
+        );
+    }
+
     public function testThatTheDateHeaderIsStripped() : void
     {
-        $this->markTestIncomplete('The Date header should be stripped from the message before attempting delivery');
+        $message = new LaminasMessage();
+        $message->setFrom('a@example.com');
+        $message->setTo('b@example.com');
+        $message->setSubject('Foo');
+        $message->setBody('Text');
+
+        $headers = $message->getHeaders();
+        $this->assertTrue($headers->has('Date'));
+
+        $this->client->sendEmail(
+            '<a@example.com>',
+            '<b@example.com>',
+            'Foo',
+            null,
+            'Text',
+            null,
+            true,
+            null,
+            null,
+            null,
+            Argument::that(function ($headerArray) {
+                $this->assertArrayNotHasKey('Date', $headerArray);
+
+                return true;
+            }),
+            null,
+            null,
+            null
+        );
     }
 
     public function testThatTheReplyToHeaderIsStripped() : void
     {
-        $this->markTestIncomplete('The Reply-To header should be stripped from the message before attempting delivery');
+        $message = new LaminasMessage();
+        $message->setFrom('a@example.com');
+        $message->setTo('b@example.com');
+        $message->setSubject('Foo');
+        $message->setBody('Text');
+
+        $this->assertFalse($message->getHeaders()->has('Reply-To'));
+
+        $message->setReplyTo('c@example.com');
+
+        $this->assertTrue($message->getHeaders()->has('Reply-To'));
+
+        $this->client->sendEmail(
+            '<a@example.com>',
+            '<b@example.com>',
+            'Foo',
+            null,
+            'Text',
+            null,
+            true,
+            '<c@example.com>',
+            null,
+            null,
+            Argument::that(function ($headerArray) {
+                foreach ($headerArray as $pair) {
+                    $this->assertArrayHasKey('Name', $pair);
+                    $this->assertArrayHasKey('Value', $pair);
+                    $this->assertNotSame('Reply-To', $pair['Name']);
+                }
+
+                return true;
+            }),
+            null,
+            null,
+            null
+        );
+    }
+
+    public function testThatPlainTextMessageCanBeSent() : void
+    {
+        $transport = $this->networkTransport();
+
+        $message = new LaminasMessage();
+        $message->setFrom('a@example.com');
+        $message->setTo('b@example.com');
+        $message->setSubject('Foo');
+        $message->setBody('Text');
+
+        $transport->send($message);
+        $this->addToAssertionCount(1);
+    }
+
+    /** @dataProvider getMessage */
+    public function testThatAFullFeaturedMessageCanBeSent(PostmarkMessage $message) : void
+    {
+        $transport = $this->networkTransport();
+        $transport->send($message);
+        $this->addToAssertionCount(1);
     }
 }

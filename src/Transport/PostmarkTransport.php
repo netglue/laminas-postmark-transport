@@ -165,10 +165,11 @@ class PostmarkTransport implements TransportInterface
             'Subject',
             'To',
             'Date',
+            'Content-Type',
         ];
 
         return array_filter(
-            iterator_to_array($message->getHeaders()),
+            iterator_to_array($message->getHeaders(), false),
             static function (HeaderInterface $header) use ($headersToStrip) : bool {
                 return ! in_array($header->getFieldName(), $headersToStrip, true);
             }
@@ -180,7 +181,7 @@ class PostmarkTransport implements TransportInterface
     {
         $body = $message->getBody();
         if (! $body instanceof MimeMessage) {
-            return [];
+            return null;
         }
 
         $data = [];
