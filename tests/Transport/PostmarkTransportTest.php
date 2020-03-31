@@ -21,6 +21,7 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use function assert;
 use function fopen;
+use function is_array;
 use function reset;
 use function sprintf;
 
@@ -322,7 +323,9 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             null
-        );
+        )->shouldBeCalled();
+
+        $this->transport()->send($message);
     }
 
     public function testThatTheDateHeaderIsStripped() : void
@@ -348,14 +351,18 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             Argument::that(function ($headerArray) {
-                $this->assertArrayNotHasKey('Date', $headerArray);
+                if (is_array($headerArray)) {
+                    $this->assertArrayNotHasKey('Date', $headerArray);
+                }
 
                 return true;
             }),
             null,
             null,
             null
-        );
+        )->shouldBeCalled();
+
+        $this->transport()->send($message);
     }
 
     public function testThatTheReplyToHeaderIsStripped() : void
@@ -384,10 +391,8 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             Argument::that(function ($headerArray) {
-                foreach ($headerArray as $pair) {
-                    $this->assertArrayHasKey('Name', $pair);
-                    $this->assertArrayHasKey('Value', $pair);
-                    $this->assertNotSame('Reply-To', $pair['Name']);
+                if (is_array($headerArray)) {
+                    $this->assertArrayNotHasKey('Reply-To', $headerArray);
                 }
 
                 return true;
@@ -395,7 +400,9 @@ class PostmarkTransportTest extends TestCase
             null,
             null,
             null
-        );
+        )->shouldBeCalled();
+
+        $this->transport()->send($message);
     }
 
     public function testThatPlainTextMessageCanBeSent() : void
@@ -418,5 +425,48 @@ class PostmarkTransportTest extends TestCase
         $transport = $this->networkTransport();
         $transport->send($message);
         $this->addToAssertionCount(1);
+    }
+
+    public function testThatMultipartMimeEncodedContentIsNotSentToApiClient() : void
+    {
+        $markup = '<p class="foo">L’bar</p>';
+
+        $message = new LaminasMessage();
+        $message->setFrom('a@example.com');
+        $message->setTo('b@example.com');
+        $message->setSubject('Foo');
+
+        $part = new Part();
+        $part->type = Mime::TYPE_HTML;
+        $part->charset = 'utf-8';
+        $part->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+        $part->setContent($markup);
+
+        $mime = new Message();
+        $mime->addPart($part);
+
+        $message->setBody($mime);
+
+        $headers = $message->getHeaders();
+        $this->assertTrue($headers->has('Date'));
+
+        $this->client->sendEmail(
+            '<a@example.com>',
+            '<b@example.com>',
+            'Foo',
+            $markup,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null,
+            Argument::any(),
+            null,
+            null,
+            null
+        )->shouldBeCalled();
+
+        $this->transport()->send($message);
     }
 }

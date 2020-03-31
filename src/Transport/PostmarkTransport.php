@@ -107,7 +107,7 @@ class PostmarkTransport implements TransportInterface
     {
         foreach ($message->getParts() as $part) {
             if ($part->type === 'text/html' && $part->disposition !== Mime::DISPOSITION_ATTACHMENT) {
-                return $part->getContent();
+                return $part->getRawContent();
             }
         }
 
@@ -118,7 +118,7 @@ class PostmarkTransport implements TransportInterface
     {
         foreach ($message->getParts() as $part) {
             if ($part->type === 'text/plain' && $part->disposition !== Mime::DISPOSITION_ATTACHMENT) {
-                return $part->getContent();
+                return $part->getRawContent();
             }
         }
 
