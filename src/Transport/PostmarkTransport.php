@@ -164,6 +164,7 @@ class PostmarkTransport implements TransportInterface
             'Sender',
             'Subject',
             'To',
+            'Date',
         ];
 
         return array_filter(

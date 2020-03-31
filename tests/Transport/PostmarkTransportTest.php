@@ -256,4 +256,9 @@ class PostmarkTransportTest extends TestCase
 
         $this->transport()->send($message);
     }
+
+    public function testThatTheDateHeaderIsStripped() : void
+    {
+        $this->markTestIncomplete('The Date header should be stripped from the message before attempting delivery');
+    }
 }
