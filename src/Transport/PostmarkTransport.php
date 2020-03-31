@@ -139,7 +139,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return string[] */
-    private function extractHeaders(Message $message) : array
+    private function extractHeaders(Message $message) :? array
     {
         $filtered = $this->filterHeaders($message);
         /**
@@ -150,7 +150,7 @@ class PostmarkTransport implements TransportInterface
             $headers[$header->getFieldName()] = $header->getFieldValue();
         }
 
-        return $headers;
+        return $headers === [] ? null : $headers;
     }
 
     /** @return HeaderInterface[] */
@@ -175,7 +175,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return string[][] */
-    private function extractAttachments(Message $message) : array
+    private function extractAttachments(Message $message) :? array
     {
         $body = $message->getBody();
         if (! $body instanceof MimeMessage) {
@@ -196,17 +196,19 @@ class PostmarkTransport implements TransportInterface
             );
         }
 
-        return $data;
+        return $data === [] ? null : $data;
     }
 
     /** @return mixed[] */
-    private function extractMetadata(Message $message) : array
+    private function extractMetadata(Message $message) :? array
     {
         if (! $message instanceof KeyValueMetadata) {
-            return [];
+            return null;
         }
 
-        return $message->getMetaData();
+        $data = $message->getMetaData();
+
+        return $data === [] ? null : $data;
     }
 
     private function linkTrackingDirective(Message $message) :? string
