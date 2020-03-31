@@ -261,4 +261,9 @@ class PostmarkTransportTest extends TestCase
     {
         $this->markTestIncomplete('The Date header should be stripped from the message before attempting delivery');
     }
+
+    public function testThatTheReplyToHeaderIsStripped() : void
+    {
+        $this->markTestIncomplete('The Reply-To header should be stripped from the message before attempting delivery');
+    }
 }

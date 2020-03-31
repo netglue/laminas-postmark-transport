@@ -160,7 +160,7 @@ class PostmarkTransport implements TransportInterface
             'Bcc',
             'Cc',
             'From',
-            'ReplyTo',
+            'Reply-To',
             'Sender',
             'Subject',
             'To',
