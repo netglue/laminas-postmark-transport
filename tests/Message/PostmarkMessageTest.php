@@ -13,13 +13,13 @@ class PostmarkMessageTest extends TestCase
     {
         $message = new PostmarkMessage();
         $message->addMetaData('foo', 'bar');
-        $this->assertEquals(['foo' => 'bar'], $message->getMetaData());
+        self::assertEquals(['foo' => 'bar'], $message->getMetaData());
     }
 
     public function testLinkTrackingHasADefault() : void
     {
         $message = new PostmarkMessage();
-        $this->assertNotNull($message->linkTracking());
+        self::assertNotNull($message->linkTracking());
     }
 
     public function testLinkTrackingModeCanBeChanged() : void
@@ -27,6 +27,6 @@ class PostmarkMessageTest extends TestCase
         $mode = LinkTracking::htmlOnly();
         $message = new PostmarkMessage();
         $message->setLinkTrackingMode($mode);
-        $this->assertEquals($mode, $message->linkTracking());
+        self::assertEquals($mode, $message->linkTracking());
     }
 }

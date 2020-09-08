@@ -17,7 +17,7 @@ class LinkTrackingTest extends TestCase
             'HtmlOnly' => [LinkTracking::htmlOnly(), 'HtmlOnly'],
         ];
         foreach ($data as $datum) {
-            $this->assertSame($datum[1], $datum[0]->getValue());
+            self::assertSame($datum[1], $datum[0]->getValue());
         }
     }
 }

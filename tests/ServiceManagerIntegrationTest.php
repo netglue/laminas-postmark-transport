@@ -63,20 +63,20 @@ class ServiceManagerIntegrationTest extends TestCase
 
     public function testThatThePostmarkTransportCanBeRetrieved() : void
     {
-        $this->assertTrue($this->serviceManager->has(PostmarkTransport::class));
-        $this->assertInstanceOf(PostmarkTransport::class, $this->serviceManager->get(PostmarkTransport::class));
+        self::assertTrue($this->serviceManager->has(PostmarkTransport::class));
+        self::assertInstanceOf(PostmarkTransport::class, $this->serviceManager->get(PostmarkTransport::class));
     }
 
     public function testThatThePostmarkTransportCanBeRetrievedByTransportInterface() : void
     {
-        $this->assertTrue($this->serviceManager->has(TransportInterface::class));
-        $this->assertInstanceOf(PostmarkTransport::class, $this->serviceManager->get(TransportInterface::class));
+        self::assertTrue($this->serviceManager->has(TransportInterface::class));
+        self::assertInstanceOf(PostmarkTransport::class, $this->serviceManager->get(TransportInterface::class));
     }
 
     public function testThatFromAddressValidatorCanBeRetrievedFromThePluginManager() : void
     {
         $plugins = $this->serviceManager->get(ValidatorPluginManager::class);
-        $this->assertTrue($plugins->has(FromAddressValidator::class));
-        $this->assertInstanceOf(FromAddressValidator::class, $plugins->get(FromAddressValidator::class));
+        self::assertTrue($plugins->has(FromAddressValidator::class));
+        self::assertInstanceOf(FromAddressValidator::class, $plugins->get(FromAddressValidator::class));
     }
 }

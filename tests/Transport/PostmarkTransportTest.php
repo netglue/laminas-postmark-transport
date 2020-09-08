@@ -14,11 +14,10 @@ use Netglue\Mail\Postmark\Message\PostmarkMessage;
 use Netglue\Mail\Postmark\Transport\PostmarkTransport;
 use Netglue\Mail\Postmark\Validator\MessageValidator;
 use Netglue\Mail\Postmark\Value\LinkTracking;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\Models\PostmarkAttachment;
 use Postmark\PostmarkClient;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use function assert;
 use function fopen;
 use function is_array;
@@ -27,7 +26,7 @@ use function sprintf;
 
 class PostmarkTransportTest extends TestCase
 {
-    /** @var PostmarkClient|ObjectProphecy */
+    /** @var PostmarkClient|MockObject */
     private $client;
 
     /** @var MessageValidator */
@@ -36,13 +35,13 @@ class PostmarkTransportTest extends TestCase
     protected function setUp() : void
     {
         parent::setUp();
-        $this->client = $this->prophesize(PostmarkClient::class);
+        $this->client = $this->createMock(PostmarkClient::class);
         $this->validator = new MessageValidator();
     }
 
     private function transport() : PostmarkTransport
     {
-        return new PostmarkTransport($this->client->reveal(), $this->validator);
+        return new PostmarkTransport($this->client, $this->validator);
     }
 
     private function networkTransport() : PostmarkTransport
@@ -54,7 +53,9 @@ class PostmarkTransportTest extends TestCase
 
     private function messageWillNotBeSent() : void
     {
-        $this->client->sendEmail(Argument::any())->shouldNotBeCalled();
+        $this->client
+            ->expects(self::never())
+            ->method('sendEmail');
     }
 
     public function testThatAnInvalidMessageIsExceptional() : void
@@ -69,7 +70,7 @@ class PostmarkTransportTest extends TestCase
     public function testThatAFromAddressIsRequired() : void
     {
         $message = new PostmarkMessage();
-        $transport = new PostmarkTransport($this->client->reveal(), new ValidatorChain());
+        $transport = new PostmarkTransport($this->client, new ValidatorChain());
         $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('A from address has not been specified');
         $transport->send($message);
@@ -126,7 +127,7 @@ class PostmarkTransportTest extends TestCase
     /** @param mixed[] $headers */
     private function assertHeaderArrayContainsHeaderName(array $headers, string $headerName) : void
     {
-        $this->assertArrayHasKey($headerName, $headers, sprintf(
+        self::assertArrayHasKey($headerName, $headers, sprintf(
             'The header named %s was not not found in the input',
             $headerName
         ));
@@ -139,40 +140,43 @@ class PostmarkTransportTest extends TestCase
     private function assertHeaderEqualsValue(array $headers, string $headerName, $expect) : void
     {
         $this->assertHeaderArrayContainsHeaderName($headers, $headerName);
-        $this->assertEquals($expect, $headers[$headerName]);
+        self::assertEquals($expect, $headers[$headerName]);
     }
 
     /** @dataProvider getMessage */
     public function testClientIsProvidedWithExpectedValues(PostmarkMessage $message) : void
     {
-        $this->client->sendEmail(
-            '<from@example.com>',
-            '<to@example.com>',
-            'Subject',
-            '<p>HTML Body</p>',
-            'Text Body',
-            'TAG',
-            false,
-            '<reply@example.com>',
-            '<cc@example.com>,<cc2@example.com>',
-            '<bcc@example.com>',
-            Argument::that(function ($headers) {
-                $this->assertHeaderEqualsValue($headers, 'X-Foo', 'bar');
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                self::equalTo('<from@example.com>'),
+                self::equalTo('<to@example.com>'),
+                self::equalTo('Subject'),
+                self::equalTo('<p>HTML Body</p>'),
+                self::equalTo('Text Body'),
+                self::equalTo('TAG'),
+                self::isFalse(),
+                self::equalTo('<reply@example.com>'),
+                self::equalTo('<cc@example.com>,<cc2@example.com>'),
+                self::equalTo('<bcc@example.com>'),
+                self::callback(function ($headers) : bool {
+                    $this->assertHeaderEqualsValue($headers, 'X-Foo', 'bar');
 
-                return true;
-            }),
-            Argument::that(function ($files) {
-                $this->assertIsArray($files);
-                $this->assertCount(1, $files);
-                $first = reset($files);
-                $this->assertInstanceOf(PostmarkAttachment::class, $first);
-                assert($first instanceof PostmarkAttachment);
+                    return true;
+                }),
+                self::callback(function ($files) {
+                    $this->assertIsArray($files);
+                    $this->assertCount(1, $files);
+                    $first = reset($files);
+                    $this->assertInstanceOf(PostmarkAttachment::class, $first);
+                    assert($first instanceof PostmarkAttachment);
 
-                return true;
-            }),
-            LinkTracking::HTML,
-            ['key' => 'value']
-        )->shouldBeCalled();
+                    return true;
+                }),
+                self::equalTo(LinkTracking::HTML),
+                self::equalTo(['key' => 'value'])
+            );
 
         $this->transport()->send($message);
     }
@@ -185,22 +189,25 @@ class PostmarkTransportTest extends TestCase
         $message->setSubject('Foo');
         $message->setBody('Text');
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            null,
-            'Text',
-            null,
-            true,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                null,
+                'Text',
+                null,
+                true,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }
@@ -225,22 +232,25 @@ class PostmarkTransportTest extends TestCase
 
         $message->setBody($mime);
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            '<p>HTML Body</p>',
-            null,
-            null,
-            true,
-            null,
-            null,
-            null,
-            Argument::type('array'),
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                '<p>HTML Body</p>',
+                null,
+                null,
+                true,
+                null,
+                null,
+                null,
+                self::isType('array'),
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }
@@ -263,22 +273,25 @@ class PostmarkTransportTest extends TestCase
 
         $message->setBody($mime);
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            null,
-            'Some Text',
-            null,
-            true,
-            null,
-            null,
-            null,
-            Argument::type('array'),
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                null,
+                'Some Text',
+                null,
+                true,
+                null,
+                null,
+                null,
+                self::isType('array'),
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }
@@ -302,28 +315,31 @@ class PostmarkTransportTest extends TestCase
         $message->setBody($mime);
 
         $headers = $message->getHeaders();
-        $this->assertTrue($headers->has('Date'));
+        self::assertTrue($headers->has('Date'));
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            null,
-            'Some Text',
-            null,
-            true,
-            null,
-            null,
-            null,
-            Argument::that(function ($headerArray) {
-                $this->assertArrayNotHasKey('Content-Type', $headerArray);
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                null,
+                'Some Text',
+                null,
+                true,
+                null,
+                null,
+                null,
+                self::callback(function ($headerArray) {
+                    $this->assertArrayNotHasKey('Content-Type', $headerArray);
 
-                return true;
-            }),
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+                    return true;
+                }),
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }
@@ -337,30 +353,33 @@ class PostmarkTransportTest extends TestCase
         $message->setBody('Text');
 
         $headers = $message->getHeaders();
-        $this->assertTrue($headers->has('Date'));
+        self::assertTrue($headers->has('Date'));
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            null,
-            'Text',
-            null,
-            true,
-            null,
-            null,
-            null,
-            Argument::that(function ($headerArray) {
-                if (is_array($headerArray)) {
-                    $this->assertArrayNotHasKey('Date', $headerArray);
-                }
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                null,
+                'Text',
+                null,
+                true,
+                null,
+                null,
+                null,
+                self::callback(function ($headerArray) {
+                    if (is_array($headerArray)) {
+                        $this->assertArrayNotHasKey('Date', $headerArray);
+                    }
 
-                return true;
-            }),
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+                    return true;
+                }),
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }
@@ -373,34 +392,37 @@ class PostmarkTransportTest extends TestCase
         $message->setSubject('Foo');
         $message->setBody('Text');
 
-        $this->assertFalse($message->getHeaders()->has('Reply-To'));
+        self::assertFalse($message->getHeaders()->has('Reply-To'));
 
         $message->setReplyTo('c@example.com');
 
-        $this->assertTrue($message->getHeaders()->has('Reply-To'));
+        self::assertTrue($message->getHeaders()->has('Reply-To'));
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            null,
-            'Text',
-            null,
-            true,
-            '<c@example.com>',
-            null,
-            null,
-            Argument::that(function ($headerArray) {
-                if (is_array($headerArray)) {
-                    $this->assertArrayNotHasKey('Reply-To', $headerArray);
-                }
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                null,
+                'Text',
+                null,
+                true,
+                '<c@example.com>',
+                null,
+                null,
+                self::callback(function ($headerArray) {
+                    if (is_array($headerArray)) {
+                        $this->assertArrayNotHasKey('Reply-To', $headerArray);
+                    }
 
-                return true;
-            }),
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+                    return true;
+                }),
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }
@@ -448,24 +470,27 @@ class PostmarkTransportTest extends TestCase
         $message->setBody($mime);
 
         $headers = $message->getHeaders();
-        $this->assertTrue($headers->has('Date'));
+        self::assertTrue($headers->has('Date'));
 
-        $this->client->sendEmail(
-            '<a@example.com>',
-            '<b@example.com>',
-            'Foo',
-            $markup,
-            null,
-            null,
-            true,
-            null,
-            null,
-            null,
-            Argument::any(),
-            null,
-            null,
-            null
-        )->shouldBeCalled();
+        $this->client
+            ->expects(self::once())
+            ->method('sendEmail')
+            ->with(
+                '<a@example.com>',
+                '<b@example.com>',
+                'Foo',
+                $markup,
+                null,
+                null,
+                true,
+                null,
+                null,
+                null,
+                self::isType('array'),
+                null,
+                null,
+                null
+            );
 
         $this->transport()->send($message);
     }

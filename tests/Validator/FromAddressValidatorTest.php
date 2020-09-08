@@ -6,61 +6,65 @@ namespace Netglue\MailTest\Postmark\Validator;
 use Laminas\Mail\Message;
 use Netglue\Mail\Postmark\PermittedSenders;
 use Netglue\Mail\Postmark\Validator\FromAddressValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
 class FromAddressValidatorTest extends TestCase
 {
-    /** @var PermittedSenders|ObjectProphecy */
+    /** @var PermittedSenders|MockObject */
     private $permittedSenders;
 
     protected function setUp() : void
     {
         parent::setUp();
-        $this->permittedSenders = $this->prophesize(PermittedSenders::class);
+        $this->permittedSenders = $this->createMock(PermittedSenders::class);
     }
 
     private function subject() : FromAddressValidator
     {
-        return new FromAddressValidator($this->permittedSenders->reveal());
+        return new FromAddressValidator($this->permittedSenders);
     }
 
     public function testNonEmailIsInvalid() : void
     {
         $v = $this->subject();
-        $this->assertFalse($v->isValid('foo'));
-        $this->assertArrayHasKey(FromAddressValidator::NOT_MESSAGE, $v->getMessages());
+        self::assertFalse($v->isValid('foo'));
+        self::assertArrayHasKey(FromAddressValidator::NOT_MESSAGE, $v->getMessages());
     }
 
     public function testMessageWithoutFromIsInvalid() : void
     {
         $v = $this->subject();
-        $this->assertFalse($v->isValid(new Message()));
-        $this->assertArrayHasKey(FromAddressValidator::MISSING_FROM, $v->getMessages());
+        self::assertFalse($v->isValid(new Message()));
+        self::assertArrayHasKey(FromAddressValidator::MISSING_FROM, $v->getMessages());
     }
 
     public function testInvalidWhenFromIsNotAPermittedSender() : void
     {
         $message = new Message();
         $message->setFrom('me@example.com');
-        $this->permittedSenders->isPermittedSender('me@example.com')
-            ->shouldBeCalled()
+        $this->permittedSenders
+            ->expects(self::atLeastOnce())
+            ->method('isPermittedSender')
+            ->with('me@example.com')
             ->willReturn(false);
         $v = $this->subject();
-        $this->assertFalse($v->isValid($message));
-        $this->assertArrayHasKey(FromAddressValidator::NOT_PERMITTED, $v->getMessages());
+        self::assertFalse($v->isValid($message));
+        self::assertArrayHasKey(FromAddressValidator::NOT_PERMITTED, $v->getMessages());
         $error = $v->getMessages()[FromAddressValidator::NOT_PERMITTED];
-        $this->assertStringContainsString('me@example.com', $error);
+        self::assertStringContainsString('me@example.com', $error);
     }
 
     public function testIsValidWhenFromIsPermittedSender() : void
     {
         $message = new Message();
         $message->setFrom('me@example.com');
-        $this->permittedSenders->isPermittedSender('me@example.com')
-            ->shouldBeCalled()
+        $this->permittedSenders
+            ->expects(self::atLeastOnce())
+            ->method('isPermittedSender')
+            ->with('me@example.com')
             ->willReturn(true);
         $v = $this->subject();
-        $this->assertTrue($v->isValid($message));
+        self::assertTrue($v->isValid($message));
     }
 }

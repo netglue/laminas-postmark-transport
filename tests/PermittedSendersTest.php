@@ -8,23 +8,22 @@ use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
 use Laminas\Cache\Storage\Adapter\Memory;
 use Laminas\Cache\Storage\Plugin\Serializer;
 use Netglue\Mail\Postmark\PermittedSenders;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkAdminClient;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use RuntimeException;
 
 class PermittedSendersTest extends TestCase
 {
     /** @var CacheItemPoolDecorator */
     private $cache;
-    /** @var PostmarkAdminClient|ObjectProphecy */
+    /** @var PostmarkAdminClient|MockObject */
     private $client;
 
     protected function setUp() : void
     {
         parent::setUp();
-        $this->client = $this->prophesize(PostmarkAdminClient::class);
+        $this->client = $this->createMock(PostmarkAdminClient::class);
         $adapter = new class extends Memory {
             public function __construct()
             {
@@ -39,15 +38,17 @@ class PermittedSendersTest extends TestCase
     private function subject() : PermittedSenders
     {
         return new PermittedSenders(
-            $this->client->reveal(),
+            $this->client,
             $this->cache
         );
     }
 
     public function testDomainRetrievalIsExceptionalWhenThereIsNoTotalCountInTheResponse() : void
     {
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([]);
 
         $this->expectException(RuntimeException::class);
@@ -58,17 +59,21 @@ class PermittedSendersTest extends TestCase
 
     public function testDomainRetrievalWillReturnAnEmptyListWhenTotalCountIsZero() : void
     {
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 0]);
 
-        $this->assertEquals([], $this->subject()->domains());
+        self::assertEquals([], $this->subject()->domains());
     }
 
     public function testExceptionThrownWhenResponseDoesNotHaveIterableDomainList() : void
     {
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 1]);
 
         $this->expectException(RuntimeException::class);
@@ -79,8 +84,10 @@ class PermittedSendersTest extends TestCase
 
     public function testExceptionThrownWhenResponseDomainListHasInvalidElement() : void
     {
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 1,
                 'Domains' => [['foo' => 'bar']],
@@ -93,8 +100,10 @@ class PermittedSendersTest extends TestCase
 
     public function testThatValidDomainListWillBeNormalised() : void
     {
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 2,
                 'Domains' => [
@@ -103,20 +112,22 @@ class PermittedSendersTest extends TestCase
                 ],
             ]);
         $list = $this->subject()->domains();
-        $this->assertContains('example.com', $list);
-        $this->assertContains('whatever.uk', $list);
+        self::assertContains('example.com', $list);
+        self::assertContains('whatever.uk', $list);
     }
 
     public function testThatDomainListIsCached() : void
     {
         $item = $this->cache->getItem(PermittedSenders::DOMAIN_LIST_CACHE_KEY);
-        $this->assertFalse($item->isHit());
+        self::assertFalse($item->isHit());
         $expect = [
             'example.com',
             'whatever.uk',
         ];
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 2,
                 'Domains' => [
@@ -126,15 +137,17 @@ class PermittedSendersTest extends TestCase
             ]);
         $this->subject()->domains();
         $item = $this->cache->getItem(PermittedSenders::DOMAIN_LIST_CACHE_KEY);
-        $this->assertTrue($item->isHit());
-        $this->assertEquals($expect, $item->get());
-        $this->assertEquals($expect, $this->subject()->domains());
+        self::assertTrue($item->isHit());
+        self::assertEquals($expect, $item->get());
+        self::assertEquals($expect, $this->subject()->domains());
     }
 
     public function testSenderRetrievalIsExceptionalWhenThereIsNoTotalCountInTheResponse() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([]);
 
         $this->expectException(RuntimeException::class);
@@ -145,17 +158,21 @@ class PermittedSendersTest extends TestCase
 
     public function testSenderRetrievalWillReturnAnEmptyListWhenTotalCountIsZero() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 0]);
 
-        $this->assertEquals([], $this->subject()->senders());
+        self::assertEquals([], $this->subject()->senders());
     }
 
     public function testExceptionThrownWhenResponseDoesNotHaveIterableSenderList() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 1]);
 
         $this->expectException(RuntimeException::class);
@@ -166,8 +183,10 @@ class PermittedSendersTest extends TestCase
 
     public function testExceptionThrownWhenResponseSenderListHasInvalidElement() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 1,
                 'SenderSignatures' => [['foo' => 'bar']],
@@ -180,8 +199,10 @@ class PermittedSendersTest extends TestCase
 
     public function testThatValidSenderListWillBeNormalised() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 2,
                 'SenderSignatures' => [
@@ -190,20 +211,22 @@ class PermittedSendersTest extends TestCase
                 ],
             ]);
         $list = $this->subject()->senders();
-        $this->assertContains('me@example.com', $list);
-        $this->assertContains('you@whatever.uk', $list);
+        self::assertContains('me@example.com', $list);
+        self::assertContains('you@whatever.uk', $list);
     }
 
     public function testThatSenderListIsCached() : void
     {
         $item = $this->cache->getItem(PermittedSenders::SENDER_LIST_CACHE_KEY);
-        $this->assertFalse($item->isHit());
+        self::assertFalse($item->isHit());
         $expect = [
             'me@example.com',
             'you@whatever.uk',
         ];
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 2,
                 'SenderSignatures' => [
@@ -213,9 +236,9 @@ class PermittedSendersTest extends TestCase
             ]);
         $this->subject()->senders();
         $item = $this->cache->getItem(PermittedSenders::SENDER_LIST_CACHE_KEY);
-        $this->assertTrue($item->isHit());
-        $this->assertEquals($expect, $item->get());
-        $this->assertEquals($expect, $this->subject()->senders());
+        self::assertTrue($item->isHit());
+        self::assertEquals($expect, $item->get());
+        self::assertEquals($expect, $this->subject()->senders());
     }
 
     public function testExceptionThrownTryingToMatchAnEmptyString() : void
@@ -234,35 +257,45 @@ class PermittedSendersTest extends TestCase
 
     public function testThatGivenAnEmailAddressTheSenderListWillBeConsulted() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn([
                 'TotalCount' => 1,
                 'SenderSignatures' => [
                     ['EmailAddress' => 'me@example.com'],
                 ],
             ]);
-        $this->assertTrue($this->subject()->isPermittedSender('ME@ExamPlE.CoM'));
+        self::assertTrue($this->subject()->isPermittedSender('ME@ExamPlE.CoM'));
     }
 
     public function testThatDomainListIsConsultedWhenSignaturesAreEmpty() : void
     {
-        $this->client->listSenderSignatures(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::once())
+            ->method('listSenderSignatures')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 0, 'SenderSignatures' => []]);
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 1, 'Domains' => [['Name' => 'example.com']]]);
-        $this->assertTrue($this->subject()->isPermittedSender('ME@ExamPlE.CoM'));
+        self::assertTrue($this->subject()->isPermittedSender('ME@ExamPlE.CoM'));
     }
 
     public function testThatOnlyDomainListIsConsultedWhenArgumentIsAHostname() : void
     {
-        $this->client->listSenderSignatures(Argument::any())
-            ->shouldNotBeCalled();
-        $this->client->listDomains(Argument::type('integer'), Argument::type('integer'))
-            ->shouldBeCalled()
+        $this->client
+            ->expects(self::never())
+            ->method('listSenderSignatures');
+        $this->client
+            ->expects(self::once())
+            ->method('listDomains')
+            ->with(self::isType('integer'), self::isType('integer'))
             ->willReturn(['TotalCount' => 1, 'Domains' => [['Name' => 'example.com']]]);
-        $this->assertTrue($this->subject()->isPermittedSender('ExamPlE.CoM'));
+        self::assertTrue($this->subject()->isPermittedSender('ExamPlE.CoM'));
     }
 }
