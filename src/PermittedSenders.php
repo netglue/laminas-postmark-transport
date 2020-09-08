@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark;
@@ -9,6 +10,7 @@ use Postmark\PostmarkAdminClient;
 use Psr\Cache\CacheException;
 use Psr\Cache\CacheItemPoolInterface;
 use RuntimeException;
+
 use function count;
 use function explode;
 use function in_array;
@@ -35,7 +37,7 @@ class PermittedSenders
         $this->client = $client;
     }
 
-    public function isPermittedSender(string $emailAddressOrHostname) : bool
+    public function isPermittedSender(string $emailAddressOrHostname): bool
     {
         ['email' => $email, 'hostname' => $hostname] = $this->extractEmailAndHostname($emailAddressOrHostname);
 
@@ -47,7 +49,7 @@ class PermittedSenders
     }
 
     /** @return string[] */
-    private function extractEmailAndHostname(string $emailAddressOrHostname) : array
+    private function extractEmailAndHostname(string $emailAddressOrHostname): array
     {
         $emailAddressOrHostname = trim($emailAddressOrHostname);
         if (empty($emailAddressOrHostname)) {
@@ -86,7 +88,7 @@ class PermittedSenders
      *
      * @throws CacheException If any problems occur setting/getting items in the cache.
      */
-    public function domains() : iterable
+    public function domains(): iterable
     {
         $item = $this->cache->getItem(self::DOMAIN_LIST_CACHE_KEY);
         if ($item->isHit()) {
@@ -102,7 +104,7 @@ class PermittedSenders
     }
 
     /** @return string[] */
-    private function retrieveDomainList() : array
+    private function retrieveDomainList(): array
     {
         $domains = [];
         while (true) {
@@ -146,7 +148,7 @@ class PermittedSenders
      *
      * @throws CacheException If any problems occur setting/getting items in the cache.
      */
-    public function senders() : iterable
+    public function senders(): iterable
     {
         $item = $this->cache->getItem(self::SENDER_LIST_CACHE_KEY);
         if ($item->isHit()) {
@@ -162,7 +164,7 @@ class PermittedSenders
     }
 
     /** @return string[] */
-    private function retrieveSenderList() : array
+    private function retrieveSenderList(): array
     {
         $senders = [];
         while (true) {

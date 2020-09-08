@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark\Container;
@@ -16,13 +17,13 @@ class PermittedSendersFactoryTest extends TestCase
     /** @var MockObject|ContainerInterface */
     private $container;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->container = $this->createMock(ContainerInterface::class);
     }
 
-    public function testThatAnExceptionIsThrownWhenThereIsNoCacheServiceConfigured() : void
+    public function testThatAnExceptionIsThrownWhenThereIsNoCacheServiceConfigured(): void
     {
         $config = ['postmark' => []];
         $this->container
@@ -35,7 +36,7 @@ class PermittedSendersFactoryTest extends TestCase
         (new PermittedSendersFactory())($this->container);
     }
 
-    public function testExceptionThrownWhenDefinedCacheIsNotAvailable() : void
+    public function testExceptionThrownWhenDefinedCacheIsNotAvailable(): void
     {
         $config = ['postmark' => ['cache_service' => 'foo']];
         $this->container
@@ -54,7 +55,7 @@ class PermittedSendersFactoryTest extends TestCase
         (new PermittedSendersFactory())($this->container);
     }
 
-    public function testHelperCanBeConstructed() : void
+    public function testHelperCanBeConstructed(): void
     {
         $cache = $this->createMock(CacheItemPoolInterface::class);
         $client = $this->createMock(PostmarkAdminClient::class);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark;
@@ -24,7 +25,7 @@ class ServiceManagerIntegrationTest extends TestCase
     /** @var ServiceManager */
     private $serviceManager;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -47,7 +48,7 @@ class ServiceManagerIntegrationTest extends TestCase
         $this->serviceManager->setService('cache', $this->setUpCache());
     }
 
-    private function setUpCache() : CacheItemPoolInterface
+    private function setUpCache(): CacheItemPoolInterface
     {
         $adapter = new class extends Memory {
             public function __construct()
@@ -61,19 +62,19 @@ class ServiceManagerIntegrationTest extends TestCase
         return new CacheItemPoolDecorator($adapter);
     }
 
-    public function testThatThePostmarkTransportCanBeRetrieved() : void
+    public function testThatThePostmarkTransportCanBeRetrieved(): void
     {
         self::assertTrue($this->serviceManager->has(PostmarkTransport::class));
         self::assertInstanceOf(PostmarkTransport::class, $this->serviceManager->get(PostmarkTransport::class));
     }
 
-    public function testThatThePostmarkTransportCanBeRetrievedByTransportInterface() : void
+    public function testThatThePostmarkTransportCanBeRetrievedByTransportInterface(): void
     {
         self::assertTrue($this->serviceManager->has(TransportInterface::class));
         self::assertInstanceOf(PostmarkTransport::class, $this->serviceManager->get(TransportInterface::class));
     }
 
-    public function testThatFromAddressValidatorCanBeRetrievedFromThePluginManager() : void
+    public function testThatFromAddressValidatorCanBeRetrievedFromThePluginManager(): void
     {
         $plugins = $this->serviceManager->get(ValidatorPluginManager::class);
         self::assertTrue($plugins->has(FromAddressValidator::class));

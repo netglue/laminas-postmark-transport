@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark\Container\Validator;
@@ -9,7 +10,7 @@ use Psr\Container\ContainerInterface;
 
 class FromAddressValidatorFactory
 {
-    public function __invoke(ContainerInterface $container) : FromAddressValidator
+    public function __invoke(ContainerInterface $container): FromAddressValidator
     {
         return new FromAddressValidator(
             $container->get(PermittedSenders::class)

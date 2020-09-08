@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark\Validator;
@@ -25,7 +26,7 @@ final class MessageValidator extends ValidatorChain
         $this->configureDefaults();
     }
 
-    private function configureDefaults() : void
+    private function configureDefaults(): void
     {
         $this->attachByName(HasFromAddress::class);
         $this->attachByName(TotalFromCount::class, ['max' => 1]);

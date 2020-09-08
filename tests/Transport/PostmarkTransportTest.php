@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark\Transport;
@@ -18,6 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\Models\PostmarkAttachment;
 use Postmark\PostmarkClient;
+
 use function assert;
 use function fopen;
 use function is_array;
@@ -32,33 +34,33 @@ class PostmarkTransportTest extends TestCase
     /** @var MessageValidator */
     private $validator;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->client = $this->createMock(PostmarkClient::class);
         $this->validator = new MessageValidator();
     }
 
-    private function transport() : PostmarkTransport
+    private function transport(): PostmarkTransport
     {
         return new PostmarkTransport($this->client, $this->validator);
     }
 
-    private function networkTransport() : PostmarkTransport
+    private function networkTransport(): PostmarkTransport
     {
         $client = new PostmarkClient('POSTMARK_API_TEST');
 
         return new PostmarkTransport($client, new ValidatorChain());
     }
 
-    private function messageWillNotBeSent() : void
+    private function messageWillNotBeSent(): void
     {
         $this->client
             ->expects(self::never())
             ->method('sendEmail');
     }
 
-    public function testThatAnInvalidMessageIsExceptional() : void
+    public function testThatAnInvalidMessageIsExceptional(): void
     {
         $message = new PostmarkMessage();
         $this->messageWillNotBeSent();
@@ -67,7 +69,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatAFromAddressIsRequired() : void
+    public function testThatAFromAddressIsRequired(): void
     {
         $message = new PostmarkMessage();
         $transport = new PostmarkTransport($this->client, new ValidatorChain());
@@ -77,7 +79,7 @@ class PostmarkTransportTest extends TestCase
     }
 
     /** @return PostmarkMessage[] */
-    public function getMessage() : iterable
+    public function getMessage(): iterable
     {
         $textContent = 'Text Body';
         $htmlContent = '<p>HTML Body</p>';
@@ -125,7 +127,7 @@ class PostmarkTransportTest extends TestCase
     }
 
     /** @param mixed[] $headers */
-    private function assertHeaderArrayContainsHeaderName(array $headers, string $headerName) : void
+    private function assertHeaderArrayContainsHeaderName(array $headers, string $headerName): void
     {
         self::assertArrayHasKey($headerName, $headers, sprintf(
             'The header named %s was not not found in the input',
@@ -137,14 +139,14 @@ class PostmarkTransportTest extends TestCase
      * @param mixed[] $headers
      * @param mixed   $expect
      */
-    private function assertHeaderEqualsValue(array $headers, string $headerName, $expect) : void
+    private function assertHeaderEqualsValue(array $headers, string $headerName, $expect): void
     {
         $this->assertHeaderArrayContainsHeaderName($headers, $headerName);
         self::assertEquals($expect, $headers[$headerName]);
     }
 
     /** @dataProvider getMessage */
-    public function testClientIsProvidedWithExpectedValues(PostmarkMessage $message) : void
+    public function testClientIsProvidedWithExpectedValues(PostmarkMessage $message): void
     {
         $this->client
             ->expects(self::once())
@@ -160,7 +162,7 @@ class PostmarkTransportTest extends TestCase
                 self::equalTo('<reply@example.com>'),
                 self::equalTo('<cc@example.com>,<cc2@example.com>'),
                 self::equalTo('<bcc@example.com>'),
-                self::callback(function ($headers) : bool {
+                self::callback(function ($headers): bool {
                     $this->assertHeaderEqualsValue($headers, 'X-Foo', 'bar');
 
                     return true;
@@ -181,7 +183,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatARegularPlainTextMessageIsOk() : void
+    public function testThatARegularPlainTextMessageIsOk(): void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -212,7 +214,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatARegularHtmlMessageIsOk() : void
+    public function testThatARegularHtmlMessageIsOk(): void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -255,7 +257,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatAMimeEncodedPlainTextMessageIsOk() : void
+    public function testThatAMimeEncodedPlainTextMessageIsOk(): void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -296,7 +298,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatTheContentTypeHeaderIsStripped() : void
+    public function testThatTheContentTypeHeaderIsStripped(): void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -344,7 +346,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatTheDateHeaderIsStripped() : void
+    public function testThatTheDateHeaderIsStripped(): void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -384,7 +386,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatTheReplyToHeaderIsStripped() : void
+    public function testThatTheReplyToHeaderIsStripped(): void
     {
         $message = new LaminasMessage();
         $message->setFrom('a@example.com');
@@ -427,7 +429,7 @@ class PostmarkTransportTest extends TestCase
         $this->transport()->send($message);
     }
 
-    public function testThatPlainTextMessageCanBeSent() : void
+    public function testThatPlainTextMessageCanBeSent(): void
     {
         $transport = $this->networkTransport();
 
@@ -442,14 +444,14 @@ class PostmarkTransportTest extends TestCase
     }
 
     /** @dataProvider getMessage */
-    public function testThatAFullFeaturedMessageCanBeSent(PostmarkMessage $message) : void
+    public function testThatAFullFeaturedMessageCanBeSent(PostmarkMessage $message): void
     {
         $transport = $this->networkTransport();
         $transport->send($message);
         $this->addToAssertionCount(1);
     }
 
-    public function testThatMultipartMimeEncodedContentIsNotSentToApiClient() : void
+    public function testThatMultipartMimeEncodedContentIsNotSentToApiClient(): void
     {
         $markup = '<p class="foo">L’bar</p>';
 

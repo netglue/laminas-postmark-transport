@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark\Value;
@@ -8,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class LinkTrackingTest extends TestCase
 {
-    public function testValuesAreAsExpected() : void
+    public function testValuesAreAsExpected(): void
     {
         $data = [
             'None' => [LinkTracking::none(), 'None'],

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark\Validator;
@@ -14,32 +15,32 @@ class FromAddressValidatorTest extends TestCase
     /** @var PermittedSenders|MockObject */
     private $permittedSenders;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->permittedSenders = $this->createMock(PermittedSenders::class);
     }
 
-    private function subject() : FromAddressValidator
+    private function subject(): FromAddressValidator
     {
         return new FromAddressValidator($this->permittedSenders);
     }
 
-    public function testNonEmailIsInvalid() : void
+    public function testNonEmailIsInvalid(): void
     {
         $v = $this->subject();
         self::assertFalse($v->isValid('foo'));
         self::assertArrayHasKey(FromAddressValidator::NOT_MESSAGE, $v->getMessages());
     }
 
-    public function testMessageWithoutFromIsInvalid() : void
+    public function testMessageWithoutFromIsInvalid(): void
     {
         $v = $this->subject();
         self::assertFalse($v->isValid(new Message()));
         self::assertArrayHasKey(FromAddressValidator::MISSING_FROM, $v->getMessages());
     }
 
-    public function testInvalidWhenFromIsNotAPermittedSender() : void
+    public function testInvalidWhenFromIsNotAPermittedSender(): void
     {
         $message = new Message();
         $message->setFrom('me@example.com');
@@ -55,7 +56,7 @@ class FromAddressValidatorTest extends TestCase
         self::assertStringContainsString('me@example.com', $error);
     }
 
-    public function testIsValidWhenFromIsPermittedSender() : void
+    public function testIsValidWhenFromIsPermittedSender(): void
     {
         $message = new Message();
         $message->setFrom('me@example.com');

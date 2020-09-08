@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark\Validator;
@@ -8,6 +9,7 @@ use Netglue\Mail\Message\KeyValueMetadata;
 use Netglue\Mail\Message\KeyValueMetadataBehaviour;
 use Netglue\Mail\Postmark\Validator\MetaDataValidator;
 use PHPUnit\Framework\TestCase;
+
 use function sprintf;
 use function str_repeat;
 
@@ -19,7 +21,7 @@ class MetaDataValidatorTest extends TestCase
     /** @var Message|KeyValueMetadata */
     private $message;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->validator = new MetaDataValidator();
@@ -28,24 +30,24 @@ class MetaDataValidatorTest extends TestCase
         };
     }
 
-    public function testNonMessageIsInvalid() : void
+    public function testNonMessageIsInvalid(): void
     {
         self::assertFalse($this->validator->isValid('oof'));
         self::assertArrayHasKey(MetaDataValidator::NOT_MESSAGE, $this->validator->getMessages());
     }
 
-    public function testMessageNotImplementingMetaDataInterfaceIsValid() : void
+    public function testMessageNotImplementingMetaDataInterfaceIsValid(): void
     {
         $msg = new Message();
         self::assertTrue($this->validator->isValid($msg));
     }
 
-    public function testEmptyMetadataIsValid() : void
+    public function testEmptyMetadataIsValid(): void
     {
         self::assertTrue($this->validator->isValid($this->message));
     }
 
-    public function testAcceptableMetaData() : void
+    public function testAcceptableMetaData(): void
     {
         $meta = [
             'string' => 'string',
@@ -57,7 +59,7 @@ class MetaDataValidatorTest extends TestCase
         self::assertTrue($this->validator->isValid($this->message));
     }
 
-    public function testThatMetaKeyExceedingMaxLengthIsInvalid() : void
+    public function testThatMetaKeyExceedingMaxLengthIsInvalid(): void
     {
         $key = str_repeat('a', MetaDataValidator::MAX_METADATA_KEY_LENGTH + 1);
         $this->message->setMetaData([$key => 'value']);
@@ -78,7 +80,7 @@ class MetaDataValidatorTest extends TestCase
         );
     }
 
-    public function testThatMetaDataValueExceedingMaxLengthIsInvalid() : void
+    public function testThatMetaDataValueExceedingMaxLengthIsInvalid(): void
     {
         $value = str_repeat('a', MetaDataValidator::MAX_METADATA_VALUE_LENGTH + 1);
         $this->message->setMetaData(['key' => $value]);

@@ -19,9 +19,9 @@
         "laminas/laminas-validator": "^2.13",
         "myclabs/php-enum": "^1.7",
         "netglue/laminas-mail-utils": "^0",
-        "netglue/psr-container-postmark": "^1",
+        "netglue/psr-container-postmark": "^1.1",
         "psr/cache": "^1.0",
-        "wildbit/postmark-php": "^2.9"
+        "wildbit/postmark-php": "^3.0||^2.9"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +34,7 @@
         }
     },
     "require-dev": {
-        "doctrine/coding-standard": "^7.0",
+        "doctrine/coding-standard": "^8.0",
         "laminas/laminas-cache": "^2.9",
         "laminas/laminas-component-installer": "^2.1",
         "laminas/laminas-config-aggregator": "^1.2",

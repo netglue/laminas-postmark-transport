@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark\Validator;
@@ -6,6 +7,7 @@ namespace Netglue\Mail\Postmark\Validator;
 use Laminas\Mail\Message;
 use Netglue\Mail\Message\KeyValueMetadata;
 use Netglue\Mail\Validator\IsMessage;
+
 use function assert;
 use function is_scalar;
 use function strlen;
@@ -42,7 +44,7 @@ class MetaDataValidator extends IsMessage
     ];
 
     /** @inheritDoc */
-    public function isValid($value) : bool
+    public function isValid($value): bool
     {
         if (! parent::isValid($value)) {
             return false;
@@ -66,7 +68,7 @@ class MetaDataValidator extends IsMessage
     }
 
     /** @param mixed $value */
-    private function validateMetaData(string $key, $value) : bool
+    private function validateMetaData(string $key, $value): bool
     {
         $this->key = $key;
         if (strlen($key) > self::MAX_METADATA_KEY_LENGTH) {

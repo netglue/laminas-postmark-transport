@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark;
@@ -9,7 +10,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 class ConfigProvider
 {
     /** @return mixed[] */
-    public function __invoke() : array
+    public function __invoke(): array
     {
         return [
             'dependencies' => $this->dependencies(),
@@ -19,7 +20,7 @@ class ConfigProvider
     }
 
     /** @return mixed[] */
-    private function dependencies() : array
+    private function dependencies(): array
     {
         return [
             'factories' => [
@@ -33,7 +34,7 @@ class ConfigProvider
     }
 
     /** @return mixed[] */
-    private function validators() : array
+    private function validators(): array
     {
         return [
             'factories' => [
@@ -44,7 +45,7 @@ class ConfigProvider
     }
 
     /** @return mixed[] */
-    private function postmarkConfig() : array
+    private function postmarkConfig(): array
     {
         return [
             'cache_service' => null,

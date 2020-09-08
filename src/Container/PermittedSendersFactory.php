@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark\Container;
@@ -10,7 +11,7 @@ use RuntimeException;
 
 class PermittedSendersFactory
 {
-    public function __invoke(ContainerInterface $container) : PermittedSenders
+    public function __invoke(ContainerInterface $container): PermittedSenders
     {
         $config = $container->get('config')['postmark'];
         $cacheId = $config['cache_service'] ?? null;

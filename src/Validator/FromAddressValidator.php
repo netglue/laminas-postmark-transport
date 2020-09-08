@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark\Validator;
@@ -6,6 +7,7 @@ namespace Netglue\Mail\Postmark\Validator;
 use Laminas\Mail\Message;
 use Netglue\Mail\Postmark\PermittedSenders;
 use Netglue\Mail\Validator\IsMessage;
+
 use function assert;
 
 class FromAddressValidator extends IsMessage
@@ -36,7 +38,7 @@ class FromAddressValidator extends IsMessage
     }
 
     /** @inheritDoc */
-    public function isValid($value) : bool
+    public function isValid($value): bool
     {
         if (! parent::isValid($value)) {
             return false;

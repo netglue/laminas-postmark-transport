@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark;
@@ -20,7 +21,7 @@ class PermittedSendersTest extends TestCase
     /** @var PostmarkAdminClient|MockObject */
     private $client;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->client = $this->createMock(PostmarkAdminClient::class);
@@ -35,7 +36,7 @@ class PermittedSendersTest extends TestCase
         $this->cache = new CacheItemPoolDecorator($adapter);
     }
 
-    private function subject() : PermittedSenders
+    private function subject(): PermittedSenders
     {
         return new PermittedSenders(
             $this->client,
@@ -43,7 +44,7 @@ class PermittedSendersTest extends TestCase
         );
     }
 
-    public function testDomainRetrievalIsExceptionalWhenThereIsNoTotalCountInTheResponse() : void
+    public function testDomainRetrievalIsExceptionalWhenThereIsNoTotalCountInTheResponse(): void
     {
         $this->client
             ->expects(self::once())
@@ -57,7 +58,7 @@ class PermittedSendersTest extends TestCase
         $this->subject()->domains();
     }
 
-    public function testDomainRetrievalWillReturnAnEmptyListWhenTotalCountIsZero() : void
+    public function testDomainRetrievalWillReturnAnEmptyListWhenTotalCountIsZero(): void
     {
         $this->client
             ->expects(self::once())
@@ -68,7 +69,7 @@ class PermittedSendersTest extends TestCase
         self::assertEquals([], $this->subject()->domains());
     }
 
-    public function testExceptionThrownWhenResponseDoesNotHaveIterableDomainList() : void
+    public function testExceptionThrownWhenResponseDoesNotHaveIterableDomainList(): void
     {
         $this->client
             ->expects(self::once())
@@ -82,7 +83,7 @@ class PermittedSendersTest extends TestCase
         $this->subject()->domains();
     }
 
-    public function testExceptionThrownWhenResponseDomainListHasInvalidElement() : void
+    public function testExceptionThrownWhenResponseDomainListHasInvalidElement(): void
     {
         $this->client
             ->expects(self::once())
@@ -98,7 +99,7 @@ class PermittedSendersTest extends TestCase
         $this->subject()->domains();
     }
 
-    public function testThatValidDomainListWillBeNormalised() : void
+    public function testThatValidDomainListWillBeNormalised(): void
     {
         $this->client
             ->expects(self::once())
@@ -116,7 +117,7 @@ class PermittedSendersTest extends TestCase
         self::assertContains('whatever.uk', $list);
     }
 
-    public function testThatDomainListIsCached() : void
+    public function testThatDomainListIsCached(): void
     {
         $item = $this->cache->getItem(PermittedSenders::DOMAIN_LIST_CACHE_KEY);
         self::assertFalse($item->isHit());
@@ -142,7 +143,7 @@ class PermittedSendersTest extends TestCase
         self::assertEquals($expect, $this->subject()->domains());
     }
 
-    public function testSenderRetrievalIsExceptionalWhenThereIsNoTotalCountInTheResponse() : void
+    public function testSenderRetrievalIsExceptionalWhenThereIsNoTotalCountInTheResponse(): void
     {
         $this->client
             ->expects(self::once())
@@ -156,7 +157,7 @@ class PermittedSendersTest extends TestCase
         $this->subject()->senders();
     }
 
-    public function testSenderRetrievalWillReturnAnEmptyListWhenTotalCountIsZero() : void
+    public function testSenderRetrievalWillReturnAnEmptyListWhenTotalCountIsZero(): void
     {
         $this->client
             ->expects(self::once())
@@ -167,7 +168,7 @@ class PermittedSendersTest extends TestCase
         self::assertEquals([], $this->subject()->senders());
     }
 
-    public function testExceptionThrownWhenResponseDoesNotHaveIterableSenderList() : void
+    public function testExceptionThrownWhenResponseDoesNotHaveIterableSenderList(): void
     {
         $this->client
             ->expects(self::once())
@@ -181,7 +182,7 @@ class PermittedSendersTest extends TestCase
         $this->subject()->senders();
     }
 
-    public function testExceptionThrownWhenResponseSenderListHasInvalidElement() : void
+    public function testExceptionThrownWhenResponseSenderListHasInvalidElement(): void
     {
         $this->client
             ->expects(self::once())
@@ -197,7 +198,7 @@ class PermittedSendersTest extends TestCase
         $this->subject()->senders();
     }
 
-    public function testThatValidSenderListWillBeNormalised() : void
+    public function testThatValidSenderListWillBeNormalised(): void
     {
         $this->client
             ->expects(self::once())
@@ -215,7 +216,7 @@ class PermittedSendersTest extends TestCase
         self::assertContains('you@whatever.uk', $list);
     }
 
-    public function testThatSenderListIsCached() : void
+    public function testThatSenderListIsCached(): void
     {
         $item = $this->cache->getItem(PermittedSenders::SENDER_LIST_CACHE_KEY);
         self::assertFalse($item->isHit());
@@ -241,21 +242,21 @@ class PermittedSendersTest extends TestCase
         self::assertEquals($expect, $this->subject()->senders());
     }
 
-    public function testExceptionThrownTryingToMatchAnEmptyString() : void
+    public function testExceptionThrownTryingToMatchAnEmptyString(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A non empty string is required');
         $this->subject()->isPermittedSender('');
     }
 
-    public function testExceptionThrownWhenTryingToMatchANonEmailAndNonHostname() : void
+    public function testExceptionThrownWhenTryingToMatchANonEmailAndNonHostname(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value provided is neither a valid email address, nor a valid hostname');
         $this->subject()->isPermittedSender('what?');
     }
 
-    public function testThatGivenAnEmailAddressTheSenderListWillBeConsulted() : void
+    public function testThatGivenAnEmailAddressTheSenderListWillBeConsulted(): void
     {
         $this->client
             ->expects(self::once())
@@ -270,7 +271,7 @@ class PermittedSendersTest extends TestCase
         self::assertTrue($this->subject()->isPermittedSender('ME@ExamPlE.CoM'));
     }
 
-    public function testThatDomainListIsConsultedWhenSignaturesAreEmpty() : void
+    public function testThatDomainListIsConsultedWhenSignaturesAreEmpty(): void
     {
         $this->client
             ->expects(self::once())
@@ -286,7 +287,7 @@ class PermittedSendersTest extends TestCase
         self::assertTrue($this->subject()->isPermittedSender('ME@ExamPlE.CoM'));
     }
 
-    public function testThatOnlyDomainListIsConsultedWhenArgumentIsAHostname() : void
+    public function testThatOnlyDomainListIsConsultedWhenArgumentIsAHostname(): void
     {
         $this->client
             ->expects(self::never())

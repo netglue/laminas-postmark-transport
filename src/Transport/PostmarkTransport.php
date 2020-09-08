@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Netglue\Mail\Postmark\Transport;
@@ -19,6 +20,7 @@ use Netglue\Mail\Postmark\Exception\MessageValidationFailure;
 use Netglue\Mail\Postmark\Message\PostmarkLinkTracking;
 use Postmark\Models\PostmarkAttachment;
 use Postmark\PostmarkClient;
+
 use function array_filter;
 use function array_map;
 use function base64_encode;
@@ -43,7 +45,7 @@ class PostmarkTransport implements TransportInterface
         $this->messageValidator = $messageValidator;
     }
 
-    public function send(Message $message) : void
+    public function send(Message $message): void
     {
         if (! $this->messageValidator->isValid($message)) {
             throw MessageValidationFailure::withValidator($this->messageValidator);
@@ -79,7 +81,7 @@ class PostmarkTransport implements TransportInterface
         );
     }
 
-    private function fromAddress(Message $message) : string
+    private function fromAddress(Message $message): string
     {
         $from = $message->getFrom();
         $fromAddress = $from->rewind();
@@ -92,9 +94,9 @@ class PostmarkTransport implements TransportInterface
         return $fromAddress->toString();
     }
 
-    private function toAddressList(AddressList $list) :? string
+    private function toAddressList(AddressList $list): ?string
     {
-        $emails = array_map(static function (AddressInterface $address) : string {
+        $emails = array_map(static function (AddressInterface $address): string {
             return $address->toString();
         }, iterator_to_array($list));
 
@@ -103,7 +105,7 @@ class PostmarkTransport implements TransportInterface
         return empty($value) ? null : $value;
     }
 
-    private function extractHtmlBody(MimeMessage $message) :? string
+    private function extractHtmlBody(MimeMessage $message): ?string
     {
         foreach ($message->getParts() as $part) {
             if ($part->type === 'text/html' && $part->disposition !== Mime::DISPOSITION_ATTACHMENT) {
@@ -114,7 +116,7 @@ class PostmarkTransport implements TransportInterface
         return null;
     }
 
-    private function extractTextBody(MimeMessage $message) :? string
+    private function extractTextBody(MimeMessage $message): ?string
     {
         foreach ($message->getParts() as $part) {
             if ($part->type === 'text/plain' && $part->disposition !== Mime::DISPOSITION_ATTACHMENT) {
@@ -125,12 +127,12 @@ class PostmarkTransport implements TransportInterface
         return null;
     }
 
-    private function getTag(Message $message) :? string
+    private function getTag(Message $message): ?string
     {
         return $message instanceof TaggableMessage ? $message->getTag() : null;
     }
 
-    private function replyTo(Message $message) :? string
+    private function replyTo(Message $message): ?string
     {
         $list = $message->getReplyTo();
         $address = $list->rewind();
@@ -139,7 +141,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return string[] */
-    private function extractHeaders(Message $message) :? array
+    private function extractHeaders(Message $message): ?array
     {
         $filtered = $this->filterHeaders($message);
         /**
@@ -154,7 +156,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return HeaderInterface[] */
-    private function filterHeaders(Message $message) : array
+    private function filterHeaders(Message $message): array
     {
         $headersToStrip = [
             'Bcc',
@@ -170,14 +172,14 @@ class PostmarkTransport implements TransportInterface
 
         return array_filter(
             iterator_to_array($message->getHeaders(), false),
-            static function (HeaderInterface $header) use ($headersToStrip) : bool {
+            static function (HeaderInterface $header) use ($headersToStrip): bool {
                 return ! in_array($header->getFieldName(), $headersToStrip, true);
             }
         );
     }
 
     /** @return string[][] */
-    private function extractAttachments(Message $message) :? array
+    private function extractAttachments(Message $message): ?array
     {
         $body = $message->getBody();
         if (! $body instanceof MimeMessage) {
@@ -202,7 +204,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return mixed[] */
-    private function extractMetadata(Message $message) :? array
+    private function extractMetadata(Message $message): ?array
     {
         if (! $message instanceof KeyValueMetadata) {
             return null;
@@ -213,7 +215,7 @@ class PostmarkTransport implements TransportInterface
         return $data === [] ? null : $data;
     }
 
-    private function linkTrackingDirective(Message $message) :? string
+    private function linkTrackingDirective(Message $message): ?string
     {
         if (! $message instanceof PostmarkLinkTracking) {
             return null;
