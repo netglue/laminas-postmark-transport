@@ -19,9 +19,8 @@
         "laminas/laminas-validator": "^2.13",
         "myclabs/php-enum": "^1.7",
         "netglue/laminas-mail-utils": "^0",
-        "netglue/psr-container-postmark": "^1.1",
-        "psr/cache": "^1.0",
-        "wildbit/postmark-php": "^3.0||^2.9"
+        "netglue/psr-container-postmark": "^1",
+        "psr/cache": "^1.0"
     },
     "autoload": {
         "psr-4": {
