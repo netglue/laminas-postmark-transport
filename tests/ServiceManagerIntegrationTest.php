@@ -16,6 +16,7 @@ use Laminas\Validator\ValidatorPluginManager;
 use Netglue\Mail\Postmark\ConfigProvider;
 use Netglue\Mail\Postmark\Transport\PostmarkTransport;
 use Netglue\Mail\Postmark\Validator\FromAddressValidator;
+use Netglue\Mail\Postmark\Validator\IsPermittedSender;
 use Netglue\PsrContainer\Postmark\ConfigProvider as PostmarkContainers;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
@@ -79,5 +80,12 @@ class ServiceManagerIntegrationTest extends TestCase
         $plugins = $this->serviceManager->get(ValidatorPluginManager::class);
         self::assertTrue($plugins->has(FromAddressValidator::class));
         self::assertInstanceOf(FromAddressValidator::class, $plugins->get(FromAddressValidator::class));
+    }
+
+    public function testThatIsPermittedSenderValidatorCanBeRetrievedFromThePluginManager(): void
+    {
+        $plugins = $this->serviceManager->get(ValidatorPluginManager::class);
+        self::assertTrue($plugins->has(IsPermittedSender::class));
+        self::assertInstanceOf(IsPermittedSender::class, $plugins->get(IsPermittedSender::class));
     }
 }
