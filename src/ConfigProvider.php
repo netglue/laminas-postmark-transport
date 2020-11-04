@@ -39,6 +39,7 @@ class ConfigProvider
         return [
             'factories' => [
                 Validator\FromAddressValidator::class => Container\Validator\FromAddressValidatorFactory::class,
+                Validator\IsPermittedSender::class => Container\Validator\IsPermittedSenderFactory::class,
                 Validator\MessageValidator::class => InvokableFactory::class,
             ],
         ];
