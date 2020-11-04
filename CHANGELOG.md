@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - `IsPermittedSender` validator that validates an email address as a string as a permitted sender or not.
+- `NotSuppressed` validator that checks an email address is not in the list of suppressed addresses
+- `SuppressionList` service for checking email addresses against Postmark's suppression lists.
 
 ### Changed
 

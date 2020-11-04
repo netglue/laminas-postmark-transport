@@ -6,30 +6,30 @@ namespace Netglue\Mail\Postmark\Validator;
 
 use Laminas\Validator\AbstractValidator;
 use Laminas\Validator\EmailAddress;
-use Netglue\Mail\Postmark\PermittedSenders;
+use Netglue\Mail\Postmark\SuppressionList;
 
 use function is_string;
 
-final class IsPermittedSender extends AbstractValidator
+final class NotSuppressed extends AbstractValidator
 {
     public const NOT_STRING = 'ValueNotSting';
-    public const NOT_PERMITTED = 'NotPermitted';
+    public const IS_SUPPRESSED = 'IsSuppressed';
     public const NOT_VALID_EMAIL = 'NotValidEmailAddress';
 
-    /** @var PermittedSenders */
-    private $permittedSenders;
+    /** @var SuppressionList */
+    private $suppressionList;
 
     /** @var string[] */
     protected $messageTemplates = [
         self::NOT_STRING => 'Expected a string',
-        self::NOT_PERMITTED => 'The email address %value% is not listed in Postmark’s sender signatures',
+        self::IS_SUPPRESSED => 'The email address "%value%" has been suppressed. Email messages cannot be sent to this address.',
         self::NOT_VALID_EMAIL => '"%value%" is not a valid email address',
     ];
 
-    public function __construct(PermittedSenders $permittedSenders)
+    public function __construct(SuppressionList $suppressionList)
     {
-        $this->permittedSenders = $permittedSenders;
         parent::__construct();
+        $this->suppressionList = $suppressionList;
     }
 
     /** @inheritDoc */
@@ -50,8 +50,8 @@ final class IsPermittedSender extends AbstractValidator
             return false;
         }
 
-        if (! $this->permittedSenders->isPermittedSender($value)) {
-            $this->error(self::NOT_PERMITTED);
+        if ($this->suppressionList->isSuppressed($value)) {
+            $this->error(self::IS_SUPPRESSED);
 
             return false;
         }

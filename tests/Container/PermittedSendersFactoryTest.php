@@ -32,7 +32,7 @@ class PermittedSendersFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('In order to use the permitted senders helper, a cache service must be defined');
+        $this->expectExceptionMessage('A cache service must be defined in your container configuration');
         (new PermittedSendersFactory())($this->container);
     }
 
@@ -51,7 +51,7 @@ class PermittedSendersFactoryTest extends TestCase
             ->willReturn(false);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('In order to use the permitted senders helper, a cache service must be defined');
+        $this->expectExceptionMessage('A cache service must be defined in your container configuration');
         (new PermittedSendersFactory())($this->container);
     }
 
