@@ -26,6 +26,7 @@ class ConfigProvider
             'factories' => [
                 Transport\PostmarkTransport::class => Container\PostmarkTransportFactory::class,
                 PermittedSenders::class => Container\PermittedSendersFactory::class,
+                SuppressionList::class => Container\SuppressionListFactory::class,
             ],
             'aliases' => [
                 TransportInterface::class => Transport\PostmarkTransport::class,
