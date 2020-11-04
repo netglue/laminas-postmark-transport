@@ -23,6 +23,7 @@ final class IsPermittedSender extends AbstractValidator
     protected $messageTemplates = [
         self::NOT_STRING => 'Expected a string',
         self::NOT_PERMITTED => 'The email address %value% is not listed in Postmark’s sender signatures',
+        self::NOT_VALID_EMAIL => '"%value%" is not a valid email address',
     ];
 
     public function __construct(PermittedSenders $permittedSenders)
