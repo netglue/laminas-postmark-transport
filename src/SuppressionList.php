@@ -15,7 +15,7 @@ use function is_iterable;
 use function is_string;
 use function strtolower;
 
-final class SuppressionList
+class SuppressionList
 {
     public const SUPPRESSION_LIST_CACHE_KEY = 'PostmarkSuppressionList';
 
