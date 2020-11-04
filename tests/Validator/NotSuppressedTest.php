@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Netglue\MailTest\Postmark\Validator;
 
 use Netglue\Mail\Postmark\SuppressionList;
-use Netglue\Mail\Postmark\Validator\IsPermittedSender;
 use Netglue\Mail\Postmark\Validator\NotSuppressed;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
