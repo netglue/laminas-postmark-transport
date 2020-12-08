@@ -10,7 +10,7 @@ This lib provides a mail transport for use with [Laminas\Mail](https://github.co
 ### Installation
 
 ```bash
-composer require netglue/postmark-laminas-transport
+composer require netglue/laminas-postmark-transport
 ```
 
 If you are using this in an app built with Expressive/Mezzio then the config provider should get injected automatically for you during installation by way of the [Laminas component installer](https://docs.laminas.dev/laminas-component-installer/). If you're using Laminas MVC then you might have to take extra steps to get the default config fired up.
