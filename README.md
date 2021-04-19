@@ -1,7 +1,7 @@
 # Postmark Mail Transport for Laminas
 
-![PHPUnit Test Suite](https://github.com/netglue/laminas-postmark-transport/workflows/PHPUnit%20Test%20Suite/badge.svg)
-[![codecov](https://codecov.io/gh/netglue/laminas-postmark-transport/branch/master/graph/badge.svg)](https://codecov.io/gh/netglue/laminas-postmark-transport)
+![PHPUnit Test Suite](https://github.com/netglue/laminas-postmark-transport/workflows/Continuous%20Integration/badge.svg)
+[![codecov](https://codecov.io/gh/netglue/laminas-postmark-transport/branch/main/graph/badge.svg)](https://codecov.io/gh/netglue/laminas-postmark-transport)
 
 ### Introduction
 
