@@ -13,7 +13,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": ">=7.3",
+        "php": "^7.3 || ~8.0",
         "laminas/laminas-mail": "^2.10",
         "laminas/laminas-mime": "^2.7",
         "laminas/laminas-validator": "^2.13",
@@ -33,14 +33,14 @@
         }
     },
     "require-dev": {
-        "doctrine/coding-standard": "^8.0",
+        "doctrine/coding-standard": "9.0",
         "laminas/laminas-cache": "^2.9",
         "laminas/laminas-component-installer": "^2.1",
         "laminas/laminas-config-aggregator": "^1.2",
         "laminas/laminas-serializer": "^2.9",
         "laminas/laminas-servicemanager": "^3.4",
-        "phpunit/phpunit": "^9.0",
-        "roave/security-advisories": "dev-master"
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest"
     },
     "scripts": {
         "check": [
