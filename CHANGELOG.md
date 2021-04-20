@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.5.0 - 2021-04-20
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Bumped minimum Postmark client lib to v4 and marked Guzzle 6 as conflict to support PHP 8.0.
+- Changed CI to use the [laminas continuous integration matrix](https://github.com/laminas/laminas-continuous-integration-action).
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.4.0 - 2020-11-04
 
 ### Added
