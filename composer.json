@@ -35,12 +35,12 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "9.0",
-        "laminas/laminas-cache": "^2.11",
+        "laminas/laminas-cache": "^2.13",
         "laminas/laminas-component-installer": "^2.5",
-        "laminas/laminas-config-aggregator": "^1.5",
+        "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-serializer": "^2.10",
-        "laminas/laminas-servicemanager": "^3.6",
-        "phpunit/phpunit": "^9.5",
+        "laminas/laminas-servicemanager": "^3.7",
+        "phpunit/phpunit": "^9.5.10",
         "roave/security-advisories": "dev-latest"
     },
     "conflict": {
