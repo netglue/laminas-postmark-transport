@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.6.0 - 2021-10-07
+
+### Added
+
+- [#27](https://github.com/netglue/laminas-postmark-transport/pull/27) adds support for PHP 8.1 by @gsteel.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.5.0 - 2021-04-20
 
 ### Added
