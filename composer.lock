@@ -514,16 +514,16 @@
         },
         {
             "name": "laminas/laminas-stdlib",
-            "version": "3.6.0",
+            "version": "3.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "c53d8537f108fac3fae652677a19735db730ba46"
+                "reference": "830a36d93aeaf06e540e90ec031babb3c6eafadb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/c53d8537f108fac3fae652677a19735db730ba46",
-                "reference": "c53d8537f108fac3fae652677a19735db730ba46",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/830a36d93aeaf06e540e90ec031babb3c6eafadb",
+                "reference": "830a36d93aeaf06e540e90ec031babb3c6eafadb",
                 "shasum": ""
             },
             "require": {
@@ -569,7 +569,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-02T16:11:32+00:00"
+            "time": "2021-12-29T14:33:01+00:00"
         },
         {
             "name": "laminas/laminas-validator",
@@ -2983,29 +2983,28 @@
         },
         {
             "name": "laminas/laminas-serializer",
-            "version": "2.10.1",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-serializer.git",
-                "reference": "254cf6a17b46d98808c0810939268f63538dcc0c"
+                "reference": "2826fd71f202569c169456a4b84297da9ff630cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-serializer/zipball/254cf6a17b46d98808c0810939268f63538dcc0c",
-                "reference": "254cf6a17b46d98808c0810939268f63538dcc0c",
+                "url": "https://api.github.com/repos/laminas/laminas-serializer/zipball/2826fd71f202569c169456a4b84297da9ff630cd",
+                "reference": "2826fd71f202569c169456a4b84297da9ff630cd",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-json": "^3.1",
                 "laminas/laminas-stdlib": "^3.2",
-                "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^7.3 || ~8.0.0"
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
-            "replace": {
-                "zendframework/zend-serializer": "^2.9.1"
+            "conflict": {
+                "zendframework/zend-serializer": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-coding-standard": "~2.3.0",
                 "laminas/laminas-math": "^3.3",
                 "laminas/laminas-servicemanager": "^3.6",
                 "phpunit/phpunit": "^9.3"
@@ -3050,7 +3049,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-02-18T14:21:13+00:00"
+            "time": "2021-12-06T04:52:05+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -3143,16 +3142,16 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "bf180a382393e7db5c1e8d0f2ec0c4af9c724baf"
+                "reference": "88bf037259869891afce6504cacc4f8a07b24d0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/bf180a382393e7db5c1e8d0f2ec0c4af9c724baf",
-                "reference": "bf180a382393e7db5c1e8d0f2ec0c4af9c724baf",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/88bf037259869891afce6504cacc4f8a07b24d0f",
+                "reference": "88bf037259869891afce6504cacc4f8a07b24d0f",
                 "shasum": ""
             },
             "require": {
@@ -3201,7 +3200,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-03T17:53:30+00:00"
+            "time": "2021-12-21T14:34:37+00:00"
         },
         {
             "name": "myclabs/deep-copy",
