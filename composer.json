@@ -35,7 +35,7 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "9.0",
-        "laminas/laminas-cache": "^2.13",
+        "laminas/laminas-cache": "^2.13 || ^3.0",
         "laminas/laminas-component-installer": "^2.5",
         "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-db": "^2.13",
