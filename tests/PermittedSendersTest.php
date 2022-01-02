@@ -13,22 +13,28 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkAdminClient;
 use RuntimeException;
+use stdClass;
+
+use function assert;
 
 class PermittedSendersTest extends TestCase
 {
     /** @var CacheItemPoolDecorator */
     private $cache;
-    /** @var PostmarkAdminClient|MockObject */
+    /** @var PostmarkAdminClient&MockObject */
     private $client;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->client = $this->createMock(PostmarkAdminClient::class);
+        /** @psalm-suppress PropertyNotSetInConstructor */
         $adapter = new class extends Memory {
             public function __construct()
             {
                 parent::__construct();
+                assert($this->capabilityMarker instanceof stdClass || $this->capabilityMarker === null);
+                /** @psalm-suppress PossiblyNullArgument */
                 $this->getCapabilities()->setStaticTtl($this->capabilityMarker, true);
             }
         };

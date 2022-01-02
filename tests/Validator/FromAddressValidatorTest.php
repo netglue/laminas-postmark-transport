@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class FromAddressValidatorTest extends TestCase
 {
-    /** @var PermittedSenders|MockObject */
+    /** @var PermittedSenders&MockObject */
     private $permittedSenders;
 
     protected function setUp(): void
@@ -53,6 +53,7 @@ class FromAddressValidatorTest extends TestCase
         self::assertFalse($v->isValid($message));
         self::assertArrayHasKey(FromAddressValidator::NOT_PERMITTED, $v->getMessages());
         $error = $v->getMessages()[FromAddressValidator::NOT_PERMITTED];
+        self::assertIsString($error);
         self::assertStringContainsString('me@example.com', $error);
     }
 

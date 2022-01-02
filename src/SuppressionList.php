@@ -70,7 +70,7 @@ class SuppressionList
         return in_array($emailAddress, $this->remoteList($emailAddress), true);
     }
 
-    /** @return string[] */
+    /** @return list<string> */
     private function remoteList(?string $emailQuery = null): array
     {
         $results = [];
@@ -80,7 +80,9 @@ class SuppressionList
             throw new UnexpectedValueException('Expected the Suppression list from the API to contain an array in its "Suppressions" property');
         }
 
+        /** @var array<string, mixed> $suppression */
         foreach ($responseList as $suppression) {
+            /** @psalm-suppress MixedArrayAccess $email */
             $email = $suppression['EmailAddress'] ?? null;
             if (empty($email) || ! is_string($email)) {
                 throw new UnexpectedValueException('Expected each suppression item to have a string EmailAddress attribute');
@@ -92,12 +94,15 @@ class SuppressionList
         return $results;
     }
 
-    /** @return string[] */
+    /** @return list<string> */
     private function getList(): array
     {
         $item = $this->cache->getItem(self::SUPPRESSION_LIST_CACHE_KEY);
 
-        return $item->isHit() ? $item->get() : [];
+        /** @var list<string> $value */
+        $value = $item->isHit() ? $item->get() : [];
+
+        return $value;
     }
 
     /** @param string[] $list */

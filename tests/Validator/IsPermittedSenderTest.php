@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class IsPermittedSenderTest extends TestCase
 {
-    /** @var PermittedSenders|MockObject */
+    /** @var PermittedSenders&MockObject */
     private $permittedSenders;
     /** @var IsPermittedSender */
     private $validator;
@@ -45,6 +45,7 @@ class IsPermittedSenderTest extends TestCase
         self::assertFalse($this->validator->isValid('me@example.com'));
         self::assertArrayHasKey(IsPermittedSender::NOT_PERMITTED, $this->validator->getMessages());
         $error = $this->validator->getMessages()[IsPermittedSender::NOT_PERMITTED];
+        self::assertIsString($error);
         self::assertStringContainsString('me@example.com', $error);
     }
 

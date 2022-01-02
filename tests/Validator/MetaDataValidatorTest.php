@@ -10,6 +10,8 @@ use Netglue\Mail\Message\KeyValueMetadataBehaviour;
 use Netglue\Mail\Postmark\Validator\MetaDataValidator;
 use PHPUnit\Framework\TestCase;
 
+use function assert;
+use function method_exists;
 use function sprintf;
 use function str_repeat;
 
@@ -18,7 +20,7 @@ class MetaDataValidatorTest extends TestCase
     /** @var MetaDataValidator */
     private $validator;
 
-    /** @var Message|KeyValueMetadata */
+    /** @var Message&KeyValueMetadata */
     private $message;
 
     protected function setUp(): void
@@ -55,6 +57,7 @@ class MetaDataValidatorTest extends TestCase
             'integer' => 100,
             'float' => 0.123,
         ];
+        assert(method_exists($this->message, 'setMetaData'));
         $this->message->setMetaData($meta);
         self::assertTrue($this->validator->isValid($this->message));
     }
@@ -62,10 +65,12 @@ class MetaDataValidatorTest extends TestCase
     public function testThatMetaKeyExceedingMaxLengthIsInvalid(): void
     {
         $key = str_repeat('a', MetaDataValidator::MAX_METADATA_KEY_LENGTH + 1);
+        assert(method_exists($this->message, 'setMetaData'));
         $this->message->setMetaData([$key => 'value']);
         self::assertFalse($this->validator->isValid($this->message));
         self::assertArrayHasKey(MetaDataValidator::KEY_LENGTH_EXCEEDED, $this->validator->getMessages());
         $message = $this->validator->getMessages()[MetaDataValidator::KEY_LENGTH_EXCEEDED];
+        self::assertIsString($message);
         self::assertStringContainsString(
             sprintf(
                 'It is %d characters but should not exceed %d',
@@ -83,10 +88,12 @@ class MetaDataValidatorTest extends TestCase
     public function testThatMetaDataValueExceedingMaxLengthIsInvalid(): void
     {
         $value = str_repeat('a', MetaDataValidator::MAX_METADATA_VALUE_LENGTH + 1);
+        assert(method_exists($this->message, 'setMetaData'));
         $this->message->setMetaData(['key' => $value]);
         self::assertFalse($this->validator->isValid($this->message));
         self::assertArrayHasKey(MetaDataValidator::VALUE_LENGTH_EXCEEDED, $this->validator->getMessages());
         $message = $this->validator->getMessages()[MetaDataValidator::VALUE_LENGTH_EXCEEDED];
+        self::assertIsString($message);
         self::assertStringContainsString(
             sprintf(
                 'It is %d characters but should not exceed %d',

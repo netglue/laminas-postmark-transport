@@ -13,7 +13,7 @@ use RuntimeException;
 
 class SuppressionListFactoryTest extends TestCase
 {
-    /** @var MockObject|ContainerInterface */
+    /** @var MockObject&ContainerInterface */
     private $container;
 
     protected function setUp(): void
