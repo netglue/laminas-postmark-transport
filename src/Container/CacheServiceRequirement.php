@@ -8,11 +8,18 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
+use function assert;
+use function is_array;
+
 trait CacheServiceRequirement
 {
     private function retrieveCache(ContainerInterface $container): CacheItemPoolInterface
     {
-        $config = $container->get('config')['postmark'];
+        $config = $container->get('config');
+        assert(is_array($config));
+        /** @psalm-var array $config */
+        $config = $config['postmark'] ?? [];
+        /** @var class-string<CacheItemPoolInterface>|null $cacheId */
         $cacheId = $config['cache_service'] ?? null;
         if (! $cacheId || ! $container->has($cacheId)) {
             throw new RuntimeException(

@@ -13,13 +13,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkClient;
 use Psr\Cache\CacheItemPoolInterface;
+use stdClass;
 use UnexpectedValueException;
+
+use function assert;
 
 class SuppressionListTest extends TestCase
 {
     /** @var CacheItemPoolInterface */
     private $cache;
-    /** @var MockObject|PostmarkClient */
+    /** @var MockObject&PostmarkClient */
     private $client;
     /** @var SuppressionList */
     private $list;
@@ -28,10 +31,13 @@ class SuppressionListTest extends TestCase
     {
         parent::setUp();
         $this->client = $this->createMock(PostmarkClient::class);
+        /** @psalm-suppress PropertyNotSetInConstructor */
         $adapter = new class extends Memory {
             public function __construct()
             {
                 parent::__construct();
+                assert($this->capabilityMarker instanceof stdClass || $this->capabilityMarker === null);
+                /** @psalm-suppress PossiblyNullArgument */
                 $this->getCapabilities()->setStaticTtl($this->capabilityMarker, true);
             }
         };

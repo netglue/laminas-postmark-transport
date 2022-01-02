@@ -14,7 +14,7 @@ use RuntimeException;
 
 class PermittedSendersFactoryTest extends TestCase
 {
-    /** @var MockObject|ContainerInterface */
+    /** @var MockObject&ContainerInterface */
     private $container;
 
     protected function setUp(): void
@@ -75,6 +75,6 @@ class PermittedSendersFactoryTest extends TestCase
             ->with('foo')
             ->willReturn(true);
         (new PermittedSendersFactory())($this->container);
-        $this->addToAssertionCount(1);
+        self::assertTrue(true);
     }
 }

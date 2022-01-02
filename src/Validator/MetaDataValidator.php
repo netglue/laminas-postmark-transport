@@ -10,6 +10,7 @@ use Netglue\Mail\Validator\IsMessage;
 
 use function assert;
 use function is_scalar;
+use function is_string;
 use function strlen;
 
 class MetaDataValidator extends IsMessage
@@ -57,6 +58,8 @@ class MetaDataValidator extends IsMessage
         }
 
         foreach ($value->getMetaData() as $metaKey => $metaValue) {
+            assert(is_string($metaKey));
+            assert(is_scalar($metaValue));
             if ($this->validateMetaData($metaKey, $metaValue)) {
                 continue;
             }

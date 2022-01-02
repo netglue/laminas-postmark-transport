@@ -20,6 +20,10 @@ use Netglue\Mail\Postmark\Validator\IsPermittedSender;
 use Netglue\PsrContainer\Postmark\ConfigProvider as PostmarkContainers;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
+use stdClass;
+
+use function assert;
+use function is_array;
 
 class ServiceManagerIntegrationTest extends TestCase
 {
@@ -44,6 +48,8 @@ class ServiceManagerIntegrationTest extends TestCase
             new ArrayProvider($config),
         ]);
         $config = $aggregator->getMergedConfig();
+        assert(is_array($config['dependencies']));
+        /** @psalm-suppress MixedArrayAssignment */
         $config['dependencies']['services']['config'] = $config;
         $this->serviceManager = new ServiceManager($config['dependencies']);
         $this->serviceManager->setService('cache', $this->setUpCache());
@@ -51,10 +57,13 @@ class ServiceManagerIntegrationTest extends TestCase
 
     private function setUpCache(): CacheItemPoolInterface
     {
+        /** @psalm-suppress PropertyNotSetInConstructor */
         $adapter = new class extends Memory {
             public function __construct()
             {
                 parent::__construct();
+                assert($this->capabilityMarker instanceof stdClass || $this->capabilityMarker === null);
+                /** @psalm-suppress PossiblyNullArgument */
                 $this->getCapabilities()->setStaticTtl($this->capabilityMarker, true);
             }
         };

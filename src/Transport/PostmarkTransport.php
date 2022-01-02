@@ -23,6 +23,7 @@ use Postmark\PostmarkClient;
 
 use function array_filter;
 use function array_map;
+use function assert;
 use function base64_encode;
 use function implode;
 use function in_array;
@@ -53,9 +54,10 @@ class PostmarkTransport implements TransportInterface
 
         $body = $message->getBody();
 
+        $textContent = $htmlContent = null;
+
         if (is_string($body)) {
             $textContent = $body;
-            $htmlContent = null;
         }
 
         if ($body instanceof MimeMessage) {
@@ -63,10 +65,13 @@ class PostmarkTransport implements TransportInterface
             $htmlContent = $this->extractHtmlBody($body);
         }
 
+        $to = $this->toAddressList($message->getTo());
+        assert(is_string($to));
+
         $this->client->sendEmail(
             $this->fromAddress($message),
-            $this->toAddressList($message->getTo()),
-            $message->getSubject(),
+            $to,
+            (string) $message->getSubject(),
             $htmlContent,
             $textContent,
             $this->getTag($message),
@@ -134,8 +139,8 @@ class PostmarkTransport implements TransportInterface
 
     private function replyTo(Message $message): ?string
     {
-        $list = $message->getReplyTo();
-        $address = $list->rewind();
+        $list = iterator_to_array($message->getReplyTo(), false);
+        $address = $list[0] ?? null;
 
         return $address instanceof AddressInterface ? $address->toString() : null;
     }
@@ -178,7 +183,7 @@ class PostmarkTransport implements TransportInterface
         );
     }
 
-    /** @return string[][] */
+    /** @return list<PostmarkAttachment>|null */
     private function extractAttachments(Message $message): ?array
     {
         $body = $message->getBody();
@@ -192,12 +197,14 @@ class PostmarkTransport implements TransportInterface
                 continue;
             }
 
-            $data[] = PostmarkAttachment::fromBase64EncodedData(
+            $postmarkAttachment = PostmarkAttachment::fromBase64EncodedData(
                 base64_encode($part->getRawContent()),
                 $part->filename,
                 $part->type,
                 $part->getId()
             );
+            assert($postmarkAttachment instanceof PostmarkAttachment);
+            $data[] = $postmarkAttachment;
         }
 
         return $data === [] ? null : $data;

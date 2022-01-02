@@ -15,7 +15,6 @@ use function count;
 use function explode;
 use function in_array;
 use function is_iterable;
-use function sprintf;
 use function strtolower;
 use function trim;
 
@@ -48,7 +47,7 @@ class PermittedSenders
         return $hostname && in_array($hostname, $this->domains(), true);
     }
 
-    /** @return string[] */
+    /** @return array{email: non-empty-lowercase-string|null, hostname: lowercase-string} */
     private function extractEmailAndHostname(string $emailAddressOrHostname): array
     {
         $emailAddressOrHostname = trim($emailAddressOrHostname);
@@ -76,23 +75,28 @@ class PermittedSenders
             ];
         }
 
-        throw new InvalidArgumentException(sprintf(
+        throw new InvalidArgumentException(
             'The value provided is neither a valid email address, nor a valid hostname'
-        ));
+        );
     }
 
     /**
      * Returns a regular array of strings with each item representing a domain name
      *
-     * @return string[]
+     * @return list<string>
      *
      * @throws CacheException If any problems occur setting/getting items in the cache.
+     *
+     * @psalm-suppress InvalidThrow
      */
     public function domains(): iterable
     {
         $item = $this->cache->getItem(self::DOMAIN_LIST_CACHE_KEY);
         if ($item->isHit()) {
-            return $item->get();
+            /** @var list<string> $list */
+            $list = $item->get();
+
+            return $list;
         }
 
         $domains = $this->retrieveDomainList();
@@ -103,7 +107,7 @@ class PermittedSenders
         return $domains;
     }
 
-    /** @return string[] */
+    /** @return list<string> */
     private function retrieveDomainList(): array
     {
         $domains = [];
@@ -124,6 +128,7 @@ class PermittedSenders
                 throw new RuntimeException('Expected the Postmark response to contain an array in the "Domains" property');
             }
 
+            /** @var array<string, string> $domain */
             foreach ($domainList as $domain) {
                 $name = $domain['Name'] ?? null;
                 if (empty($name)) {
@@ -144,15 +149,20 @@ class PermittedSenders
     /**
      * Returns a regular array of strings with each item representing an email address
      *
-     * @return string[]
+     * @return list<string>
      *
      * @throws CacheException If any problems occur setting/getting items in the cache.
+     *
+     * @psalm-suppress InvalidThrow
      */
     public function senders(): iterable
     {
         $item = $this->cache->getItem(self::SENDER_LIST_CACHE_KEY);
         if ($item->isHit()) {
-            return $item->get();
+            /** @var list<string> $list */
+            $list = $item->get();
+
+            return $list;
         }
 
         $senders = $this->retrieveSenderList();
@@ -163,7 +173,7 @@ class PermittedSenders
         return $senders;
     }
 
-    /** @return string[] */
+    /** @return list<string> */
     private function retrieveSenderList(): array
     {
         $senders = [];
@@ -184,6 +194,7 @@ class PermittedSenders
                 throw new RuntimeException('Expected the Postmark response to contain an array in the "SenderSignatures" property');
             }
 
+            /** @var array<string, string> $sender */
             foreach ($senderList as $sender) {
                 $email = $sender['EmailAddress'] ?? null;
                 if (empty($email)) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark\Transport;
 
+use Generator;
 use Laminas\Mail\Message as LaminasMessage;
 use Laminas\Mime\Message;
 use Laminas\Mime\Mime;
@@ -20,7 +21,6 @@ use PHPUnit\Framework\TestCase;
 use Postmark\Models\PostmarkAttachment;
 use Postmark\PostmarkClient;
 
-use function assert;
 use function fopen;
 use function is_array;
 use function reset;
@@ -28,7 +28,7 @@ use function sprintf;
 
 class PostmarkTransportTest extends TestCase
 {
-    /** @var PostmarkClient|MockObject */
+    /** @var PostmarkClient&MockObject */
     private $client;
 
     /** @var MessageValidator */
@@ -72,14 +72,15 @@ class PostmarkTransportTest extends TestCase
     public function testThatAFromAddressIsRequired(): void
     {
         $message = new PostmarkMessage();
+        $message->setTo('you@example.com');
         $transport = new PostmarkTransport($this->client, new ValidatorChain());
         $this->expectException(InvalidArgument::class);
         $this->expectExceptionMessage('A from address has not been specified');
         $transport->send($message);
     }
 
-    /** @return PostmarkMessage[] */
-    public function getMessage(): iterable
+    /** @return Generator<string, array{0: PostmarkMessage}> */
+    public function getMessage(): Generator
     {
         $textContent = 'Text Body';
         $htmlContent = '<p>HTML Body</p>';
@@ -162,7 +163,7 @@ class PostmarkTransportTest extends TestCase
                 self::equalTo('<reply@example.com>'),
                 self::equalTo('<cc@example.com>,<cc2@example.com>'),
                 self::equalTo('<bcc@example.com>'),
-                self::callback(function ($headers): bool {
+                self::callback(function (array $headers): bool {
                     $this->assertHeaderEqualsValue($headers, 'X-Foo', 'bar');
 
                     return true;
@@ -172,7 +173,6 @@ class PostmarkTransportTest extends TestCase
                     $this->assertCount(1, $files);
                     $first = reset($files);
                     $this->assertInstanceOf(PostmarkAttachment::class, $first);
-                    assert($first instanceof PostmarkAttachment);
 
                     return true;
                 }),
@@ -333,7 +333,7 @@ class PostmarkTransportTest extends TestCase
                 null,
                 null,
                 null,
-                self::callback(function ($headerArray) {
+                self::callback(function (array $headerArray): bool {
                     $this->assertArrayNotHasKey('Content-Type', $headerArray);
 
                     return true;
@@ -440,7 +440,7 @@ class PostmarkTransportTest extends TestCase
         $message->setBody('Text');
 
         $transport->send($message);
-        $this->addToAssertionCount(1);
+        self::assertTrue(true);
     }
 
     /** @dataProvider getMessage */
@@ -448,7 +448,7 @@ class PostmarkTransportTest extends TestCase
     {
         $transport = $this->networkTransport();
         $transport->send($message);
-        $this->addToAssertionCount(1);
+        self::assertTrue(true);
     }
 
     public function testThatMultipartMimeEncodedContentIsNotSentToApiClient(): void
