@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace Netglue\MailTest\Postmark;
 
 use InvalidArgumentException;
-use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
-use Laminas\Cache\Storage\Adapter\Memory;
-use Laminas\Cache\Storage\Plugin\Serializer;
 use Netglue\Mail\Postmark\PermittedSenders;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkAdminClient;
+use Psr\Cache\CacheItemPoolInterface;
 use RuntimeException;
-use stdClass;
-
-use function assert;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class PermittedSendersTest extends TestCase
 {
-    /** @var CacheItemPoolDecorator */
+    /** @var CacheItemPoolInterface */
     private $cache;
     /** @var PostmarkAdminClient&MockObject */
     private $client;
@@ -28,18 +24,7 @@ class PermittedSendersTest extends TestCase
     {
         parent::setUp();
         $this->client = $this->createMock(PostmarkAdminClient::class);
-        /** @psalm-suppress PropertyNotSetInConstructor */
-        $adapter = new class extends Memory {
-            public function __construct()
-            {
-                parent::__construct();
-                assert($this->capabilityMarker instanceof stdClass || $this->capabilityMarker === null);
-                /** @psalm-suppress PossiblyNullArgument */
-                $this->getCapabilities()->setStaticTtl($this->capabilityMarker, true);
-            }
-        };
-        $adapter->addPlugin(new Serializer());
-        $this->cache = new CacheItemPoolDecorator($adapter);
+        $this->cache = new ArrayAdapter();
     }
 
     private function subject(): PermittedSenders

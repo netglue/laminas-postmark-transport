@@ -35,7 +35,6 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "9.0",
-        "laminas/laminas-cache": "^2.13",
         "laminas/laminas-component-installer": "^2.5",
         "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-db": "^2.13",
@@ -45,6 +44,7 @@
         "phpunit/phpunit": "^9.5.10",
         "psalm/plugin-phpunit": "^0.16.1",
         "roave/security-advisories": "dev-latest",
+        "symfony/cache": "^5.4",
         "vimeo/psalm": "^4.17"
     },
     "conflict": {
