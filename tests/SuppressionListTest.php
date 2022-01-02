@@ -4,19 +4,14 @@ declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark;
 
-use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
-use Laminas\Cache\Storage\Adapter\Memory;
-use Laminas\Cache\Storage\Plugin\Serializer;
 use Netglue\Mail\Postmark\Exception\NotAnEmailAddress;
 use Netglue\Mail\Postmark\SuppressionList;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkClient;
 use Psr\Cache\CacheItemPoolInterface;
-use stdClass;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use UnexpectedValueException;
-
-use function assert;
 
 class SuppressionListTest extends TestCase
 {
@@ -31,18 +26,7 @@ class SuppressionListTest extends TestCase
     {
         parent::setUp();
         $this->client = $this->createMock(PostmarkClient::class);
-        /** @psalm-suppress PropertyNotSetInConstructor */
-        $adapter = new class extends Memory {
-            public function __construct()
-            {
-                parent::__construct();
-                assert($this->capabilityMarker instanceof stdClass || $this->capabilityMarker === null);
-                /** @psalm-suppress PossiblyNullArgument */
-                $this->getCapabilities()->setStaticTtl($this->capabilityMarker, true);
-            }
-        };
-        $adapter->addPlugin(new Serializer());
-        $this->cache = new CacheItemPoolDecorator($adapter);
+        $this->cache = new ArrayAdapter();
         $this->list = new SuppressionList($this->client, $this->cache);
     }
 

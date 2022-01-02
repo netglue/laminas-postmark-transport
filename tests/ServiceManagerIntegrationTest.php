@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Netglue\MailTest\Postmark;
 
-use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
-use Laminas\Cache\Storage\Adapter\Memory;
-use Laminas\Cache\Storage\Plugin\Serializer;
 use Laminas\ConfigAggregator\ArrayProvider;
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Laminas\Mail\Transport\TransportInterface;
@@ -20,7 +17,7 @@ use Netglue\Mail\Postmark\Validator\IsPermittedSender;
 use Netglue\PsrContainer\Postmark\ConfigProvider as PostmarkContainers;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
-use stdClass;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 use function assert;
 use function is_array;
@@ -57,19 +54,7 @@ class ServiceManagerIntegrationTest extends TestCase
 
     private function setUpCache(): CacheItemPoolInterface
     {
-        /** @psalm-suppress PropertyNotSetInConstructor */
-        $adapter = new class extends Memory {
-            public function __construct()
-            {
-                parent::__construct();
-                assert($this->capabilityMarker instanceof stdClass || $this->capabilityMarker === null);
-                /** @psalm-suppress PossiblyNullArgument */
-                $this->getCapabilities()->setStaticTtl($this->capabilityMarker, true);
-            }
-        };
-        $adapter->addPlugin(new Serializer());
-
-        return new CacheItemPoolDecorator($adapter);
+        return new ArrayAdapter();
     }
 
     public function testThatThePostmarkTransportCanBeRetrieved(): void
