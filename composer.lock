@@ -2736,20 +2736,20 @@
         },
         {
             "name": "laminas/laminas-db",
-            "version": "2.13.4",
+            "version": "2.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-db.git",
-                "reference": "cdabb4bfa669c2c0edb0cb4e014c15b41afd3fb1"
+                "reference": "7daba1149e69dc828ce083844cde1101c0418afa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/cdabb4bfa669c2c0edb0cb4e014c15b41afd3fb1",
-                "reference": "cdabb4bfa669c2c0edb0cb4e014c15b41afd3fb1",
+                "url": "https://api.github.com/repos/laminas/laminas-db/zipball/7daba1149e69dc828ce083844cde1101c0418afa",
+                "reference": "7daba1149e69dc828ce083844cde1101c0418afa",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-stdlib": "^3.6",
+                "laminas/laminas-stdlib": "^3.7.1",
                 "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
             "conflict": {
@@ -2757,10 +2757,10 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.2.1",
-                "laminas/laminas-eventmanager": "^3.4",
+                "laminas/laminas-eventmanager": "^3.4.0",
                 "laminas/laminas-hydrator": "^3.2 || ^4.3",
-                "laminas/laminas-servicemanager": "^3.7",
-                "phpunit/phpunit": "^9.5.5"
+                "laminas/laminas-servicemanager": "^3.7.0",
+                "phpunit/phpunit": "^9.5.19"
             },
             "suggest": {
                 "laminas/laminas-eventmanager": "Laminas\\EventManager component",
@@ -2803,7 +2803,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-21T18:59:44+00:00"
+            "time": "2022-03-30T07:37:42+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
