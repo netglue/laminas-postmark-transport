@@ -1724,16 +1724,16 @@
         },
         {
             "name": "wildbit/postmark-php",
-            "version": "4.0.3",
+            "version": "4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wildbit/postmark-php.git",
-                "reference": "b988adc9d5d85ac35b351837a9ca954d95b58757"
+                "reference": "d27cd97a5efefa72d4ea16c2fa307c22c4e5312c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wildbit/postmark-php/zipball/b988adc9d5d85ac35b351837a9ca954d95b58757",
-                "reference": "b988adc9d5d85ac35b351837a9ca954d95b58757",
+                "url": "https://api.github.com/repos/wildbit/postmark-php/zipball/d27cd97a5efefa72d4ea16c2fa307c22c4e5312c",
+                "reference": "d27cd97a5efefa72d4ea16c2fa307c22c4e5312c",
                 "shasum": ""
             },
             "require": {
@@ -1756,9 +1756,9 @@
             "description": "The officially supported client for Postmark (http://postmarkapp.com)",
             "support": {
                 "issues": "https://github.com/wildbit/postmark-php/issues",
-                "source": "https://github.com/wildbit/postmark-php/tree/4.0.3"
+                "source": "https://github.com/wildbit/postmark-php/tree/4.0.4"
             },
-            "time": "2022-02-16T17:09:29+00:00"
+            "time": "2022-03-28T18:34:21+00:00"
         }
     ],
     "packages-dev": [
