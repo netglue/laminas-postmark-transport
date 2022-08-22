@@ -16,8 +16,7 @@ final class NotSuppressed extends AbstractValidator
     public const IS_SUPPRESSED = 'IsSuppressed';
     public const NOT_VALID_EMAIL = 'NotValidEmailAddress';
 
-    /** @var SuppressionList */
-    private $suppressionList;
+    private SuppressionList $suppressionList;
 
     /** @var string[] */
     protected $messageTemplates = [

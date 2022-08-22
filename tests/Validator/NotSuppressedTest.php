@@ -13,8 +13,7 @@ class NotSuppressedTest extends TestCase
 {
     /** @var SuppressionList&MockObject */
     private $list;
-    /** @var NotSuppressed */
-    private $validator;
+    private NotSuppressed $validator;
 
     protected function setUp(): void
     {

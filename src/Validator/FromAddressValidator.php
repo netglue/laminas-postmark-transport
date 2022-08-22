@@ -15,8 +15,7 @@ class FromAddressValidator extends IsMessage
     public const MISSING_FROM = 'MissingFrom';
     public const NOT_PERMITTED = 'NotPermitted';
 
-    /** @var PermittedSenders */
-    private $permittedSenders;
+    private PermittedSenders $permittedSenders;
 
     /** @var string[] */
     protected $messageTemplates = [

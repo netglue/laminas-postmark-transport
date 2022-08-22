@@ -15,7 +15,7 @@
 
     <!-- Inherit rules from Doctrine Coding Standard -->
     <rule ref="Doctrine">
-        <!-- Whilst this lib is compatible with 7.3, exclude this sniff -->
+        <!-- This lib has properties that cannot yet receive type hints -->
         <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
     </rule>
 

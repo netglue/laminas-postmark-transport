@@ -8,8 +8,7 @@ use Netglue\Mail\Postmark\Value\LinkTracking;
 
 trait PostmarkLinkTrackingBehaviour
 {
-    /** @var LinkTracking|null */
-    private $linkTracking;
+    private ?LinkTracking $linkTracking = null;
 
     public function setLinkTrackingMode(LinkTracking $tracking): void
     {

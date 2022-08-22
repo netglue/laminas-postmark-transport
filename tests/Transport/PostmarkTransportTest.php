@@ -31,8 +31,7 @@ class PostmarkTransportTest extends TestCase
     /** @var PostmarkClient&MockObject */
     private $client;
 
-    /** @var MessageValidator */
-    private $validator;
+    private MessageValidator $validator;
 
     protected function setUp(): void
     {

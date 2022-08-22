@@ -15,12 +15,10 @@ use UnexpectedValueException;
 
 class SuppressionListTest extends TestCase
 {
-    /** @var CacheItemPoolInterface */
-    private $cache;
+    private CacheItemPoolInterface $cache;
     /** @var MockObject&PostmarkClient */
     private $client;
-    /** @var SuppressionList */
-    private $list;
+    private SuppressionList $list;
 
     protected function setUp(): void
     {

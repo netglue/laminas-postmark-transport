@@ -19,12 +19,9 @@ class SuppressionList
 {
     public const SUPPRESSION_LIST_CACHE_KEY = 'PostmarkSuppressionList';
 
-    /** @var PostmarkClient */
-    private $client;
-    /** @var CacheItemPoolInterface */
-    private $cache;
-    /** @var EmailAddress */
-    private $validator;
+    private PostmarkClient $client;
+    private CacheItemPoolInterface $cache;
+    private EmailAddress $validator;
 
     public function __construct(PostmarkClient $client, CacheItemPoolInterface $cache)
     {

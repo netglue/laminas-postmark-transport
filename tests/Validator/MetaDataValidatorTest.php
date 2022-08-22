@@ -17,8 +17,7 @@ use function str_repeat;
 
 class MetaDataValidatorTest extends TestCase
 {
-    /** @var MetaDataValidator */
-    private $validator;
+    private MetaDataValidator $validator;
 
     /** @var Message&KeyValueMetadata */
     private $message;
