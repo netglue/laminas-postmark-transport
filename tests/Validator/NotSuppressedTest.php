@@ -9,9 +9,6 @@ use Netglue\Mail\Postmark\Validator\NotSuppressed;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-use function assert;
-use function is_string;
-
 class NotSuppressedTest extends TestCase
 {
     /** @var SuppressionList&MockObject */
@@ -47,9 +44,10 @@ class NotSuppressedTest extends TestCase
             ->willReturn(true);
         self::assertFalse($this->validator->isValid('me@example.com'));
         self::assertArrayHasKey(NotSuppressed::IS_SUPPRESSED, $this->validator->getMessages());
-        $error = $this->validator->getMessages()[NotSuppressed::IS_SUPPRESSED];
-        assert(is_string($error));
-        self::assertStringContainsString('me@example.com', $error);
+        self::assertStringContainsString(
+            'me@example.com',
+            $this->validator->getMessages()[NotSuppressed::IS_SUPPRESSED]
+        );
     }
 
     public function testIsValidWhenEmailIsNotSuppressed(): void

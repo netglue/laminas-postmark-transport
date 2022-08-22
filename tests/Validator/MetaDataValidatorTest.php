@@ -70,7 +70,6 @@ class MetaDataValidatorTest extends TestCase
         self::assertFalse($this->validator->isValid($this->message));
         self::assertArrayHasKey(MetaDataValidator::KEY_LENGTH_EXCEEDED, $this->validator->getMessages());
         $message = $this->validator->getMessages()[MetaDataValidator::KEY_LENGTH_EXCEEDED];
-        self::assertIsString($message);
         self::assertStringContainsString(
             sprintf(
                 'It is %d characters but should not exceed %d',
@@ -93,7 +92,6 @@ class MetaDataValidatorTest extends TestCase
         self::assertFalse($this->validator->isValid($this->message));
         self::assertArrayHasKey(MetaDataValidator::VALUE_LENGTH_EXCEEDED, $this->validator->getMessages());
         $message = $this->validator->getMessages()[MetaDataValidator::VALUE_LENGTH_EXCEEDED];
-        self::assertIsString($message);
         self::assertStringContainsString(
             sprintf(
                 'It is %d characters but should not exceed %d',

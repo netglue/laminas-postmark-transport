@@ -52,9 +52,10 @@ class FromAddressValidatorTest extends TestCase
         $v = $this->subject();
         self::assertFalse($v->isValid($message));
         self::assertArrayHasKey(FromAddressValidator::NOT_PERMITTED, $v->getMessages());
-        $error = $v->getMessages()[FromAddressValidator::NOT_PERMITTED];
-        self::assertIsString($error);
-        self::assertStringContainsString('me@example.com', $error);
+        self::assertStringContainsString(
+            'me@example.com',
+            $v->getMessages()[FromAddressValidator::NOT_PERMITTED]
+        );
     }
 
     public function testIsValidWhenFromIsPermittedSender(): void
