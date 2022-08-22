@@ -34,11 +34,9 @@ class PostmarkTransport implements TransportInterface
 {
     public const MAX_RECIPIENT_COUNT = 50;
 
-    /** @var PostmarkClient */
-    private $client;
+    private PostmarkClient $client;
 
-    /** @var ValidatorInterface */
-    private $messageValidator;
+    private ValidatorInterface $messageValidator;
 
     public function __construct(PostmarkClient $client, ValidatorInterface $messageValidator)
     {
@@ -101,9 +99,10 @@ class PostmarkTransport implements TransportInterface
 
     private function toAddressList(AddressList $list): ?string
     {
-        $emails = array_map(static function (AddressInterface $address): string {
-            return $address->toString();
-        }, iterator_to_array($list));
+        $emails = array_map(
+            static fn (AddressInterface $address): string => $address->toString(),
+            iterator_to_array($list)
+        );
 
         $value = implode(',', $emails);
 
@@ -177,9 +176,7 @@ class PostmarkTransport implements TransportInterface
 
         return array_filter(
             iterator_to_array($message->getHeaders(), false),
-            static function (HeaderInterface $header) use ($headersToStrip): bool {
-                return ! in_array($header->getFieldName(), $headersToStrip, true);
-            }
+            static fn (HeaderInterface $header): bool => ! in_array($header->getFieldName(), $headersToStrip, true)
         );
     }
 

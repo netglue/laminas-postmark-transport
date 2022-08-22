@@ -16,8 +16,7 @@ final class IsPermittedSender extends AbstractValidator
     public const NOT_PERMITTED = 'NotPermitted';
     public const NOT_VALID_EMAIL = 'NotValidEmailAddress';
 
-    /** @var PermittedSenders */
-    private $permittedSenders;
+    private PermittedSenders $permittedSenders;
 
     /** @var string[] */
     protected $messageTemplates = [

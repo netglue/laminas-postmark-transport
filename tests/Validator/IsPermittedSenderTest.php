@@ -13,8 +13,7 @@ class IsPermittedSenderTest extends TestCase
 {
     /** @var PermittedSenders&MockObject */
     private $permittedSenders;
-    /** @var IsPermittedSender */
-    private $validator;
+    private IsPermittedSender $validator;
 
     protected function setUp(): void
     {

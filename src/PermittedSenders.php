@@ -24,11 +24,8 @@ class PermittedSenders
     public const SENDER_LIST_CACHE_KEY = 'PostmarkSenders';
     private const MAX_PER_REQUEST = 500;
 
-    /** @var PostmarkAdminClient */
-    private $client;
-
-    /** @var CacheItemPoolInterface */
-    private $cache;
+    private PostmarkAdminClient $client;
+    private CacheItemPoolInterface $cache;
 
     public function __construct(PostmarkAdminClient $client, CacheItemPoolInterface $cache)
     {

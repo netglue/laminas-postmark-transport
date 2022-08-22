@@ -15,8 +15,7 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class PermittedSendersTest extends TestCase
 {
-    /** @var CacheItemPoolInterface */
-    private $cache;
+    private CacheItemPoolInterface $cache;
     /** @var PostmarkAdminClient&MockObject */
     private $client;
 

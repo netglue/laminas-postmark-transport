@@ -24,8 +24,7 @@ use function is_array;
 
 class ServiceManagerIntegrationTest extends TestCase
 {
-    /** @var ServiceManager */
-    private $serviceManager;
+    private ServiceManager $serviceManager;
 
     protected function setUp(): void
     {
@@ -48,6 +47,7 @@ class ServiceManagerIntegrationTest extends TestCase
         assert(is_array($config['dependencies']));
         /** @psalm-suppress MixedArrayAssignment */
         $config['dependencies']['services']['config'] = $config;
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         $this->serviceManager = new ServiceManager($config['dependencies']);
         $this->serviceManager->setService('cache', $this->setUpCache());
     }
