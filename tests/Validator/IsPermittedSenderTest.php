@@ -45,7 +45,6 @@ class IsPermittedSenderTest extends TestCase
         self::assertFalse($this->validator->isValid('me@example.com'));
         self::assertArrayHasKey(IsPermittedSender::NOT_PERMITTED, $this->validator->getMessages());
         $error = $this->validator->getMessages()[IsPermittedSender::NOT_PERMITTED];
-        self::assertIsString($error);
         self::assertStringContainsString('me@example.com', $error);
     }
 
