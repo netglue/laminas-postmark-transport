@@ -18,7 +18,7 @@ class MessageValidationFailure extends InvalidArgument
     {
         $message = sprintf(
             'The message provided does not pass Postmark validation rules: ' . PHP_EOL . '%s',
-            implode(PHP_EOL, $validator->getMessages())
+            implode(PHP_EOL, $validator->getMessages()),
         );
 
         return new self($message, 400);

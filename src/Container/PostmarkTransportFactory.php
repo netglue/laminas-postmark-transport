@@ -28,7 +28,7 @@ class PostmarkTransportFactory
 
         return new PostmarkTransport(
             $container->get(PostmarkClient::class),
-            $validators->get($validatorId)
+            $validators->get($validatorId),
         );
     }
 }

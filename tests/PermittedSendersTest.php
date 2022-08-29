@@ -30,7 +30,7 @@ class PermittedSendersTest extends TestCase
     {
         return new PermittedSenders(
             $this->client,
-            $this->cache
+            $this->cache,
         );
     }
 

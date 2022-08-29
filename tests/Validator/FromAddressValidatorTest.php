@@ -54,7 +54,7 @@ class FromAddressValidatorTest extends TestCase
         self::assertArrayHasKey(FromAddressValidator::NOT_PERMITTED, $v->getMessages());
         self::assertStringContainsString(
             'me@example.com',
-            $v->getMessages()[FromAddressValidator::NOT_PERMITTED]
+            $v->getMessages()[FromAddressValidator::NOT_PERMITTED],
         );
     }
 

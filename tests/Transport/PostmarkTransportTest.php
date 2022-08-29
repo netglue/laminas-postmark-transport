@@ -131,7 +131,7 @@ class PostmarkTransportTest extends TestCase
     {
         self::assertArrayHasKey($headerName, $headers, sprintf(
             'The header named %s was not not found in the input',
-            $headerName
+            $headerName,
         ));
     }
 
@@ -176,7 +176,7 @@ class PostmarkTransportTest extends TestCase
                     return true;
                 }),
                 self::equalTo(LinkTracking::HTML),
-                self::equalTo(['key' => 'value'])
+                self::equalTo(['key' => 'value']),
             );
 
         $this->transport()->send($message);
@@ -207,7 +207,7 @@ class PostmarkTransportTest extends TestCase
                 null,
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);
@@ -250,7 +250,7 @@ class PostmarkTransportTest extends TestCase
                 self::isType('array'),
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);
@@ -291,7 +291,7 @@ class PostmarkTransportTest extends TestCase
                 self::isType('array'),
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);
@@ -339,7 +339,7 @@ class PostmarkTransportTest extends TestCase
                 }),
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);
@@ -379,7 +379,7 @@ class PostmarkTransportTest extends TestCase
                 }),
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);
@@ -422,7 +422,7 @@ class PostmarkTransportTest extends TestCase
                 }),
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);
@@ -490,7 +490,7 @@ class PostmarkTransportTest extends TestCase
                 self::isType('array'),
                 null,
                 null,
-                null
+                null,
             );
 
         $this->transport()->send($message);

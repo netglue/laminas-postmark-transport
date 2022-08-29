@@ -25,7 +25,7 @@ trait CacheServiceRequirement
             throw new RuntimeException(
                 'A cache service must be defined in your container configuration under the key '
                 . '[postmark][cache_service] that resolves to a Psr\Cache\CacheItemPoolInterface ' .
-                'implementation of your choosing.'
+                'implementation of your choosing.',
             );
         }
 

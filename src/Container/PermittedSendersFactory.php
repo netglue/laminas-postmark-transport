@@ -18,7 +18,7 @@ class PermittedSendersFactory
 
         return new PermittedSenders(
             $container->get(PostmarkAdminClient::class),
-            $cache
+            $cache,
         );
     }
 }

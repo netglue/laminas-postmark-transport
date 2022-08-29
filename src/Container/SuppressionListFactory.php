@@ -16,7 +16,7 @@ final class SuppressionListFactory
     {
         return new SuppressionList(
             $container->get(PostmarkClient::class),
-            $this->retrieveCache($container)
+            $this->retrieveCache($container),
         );
     }
 }
