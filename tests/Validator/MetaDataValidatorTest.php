@@ -73,13 +73,13 @@ class MetaDataValidatorTest extends TestCase
             sprintf(
                 'It is %d characters but should not exceed %d',
                 MetaDataValidator::MAX_METADATA_KEY_LENGTH + 1,
-                MetaDataValidator::MAX_METADATA_KEY_LENGTH
+                MetaDataValidator::MAX_METADATA_KEY_LENGTH,
             ),
-            $message
+            $message,
         );
         self::assertStringContainsString(
             sprintf('"%s"', $key),
-            $message
+            $message,
         );
     }
 
@@ -95,14 +95,14 @@ class MetaDataValidatorTest extends TestCase
             sprintf(
                 'It is %d characters but should not exceed %d',
                 MetaDataValidator::MAX_METADATA_VALUE_LENGTH + 1,
-                MetaDataValidator::MAX_METADATA_VALUE_LENGTH
+                MetaDataValidator::MAX_METADATA_VALUE_LENGTH,
             ),
-            $message
+            $message,
         );
 
         self::assertStringContainsString(
             sprintf('"%s"', 'key'),
-            $message
+            $message,
         );
     }
 }

@@ -80,7 +80,7 @@ class PostmarkTransport implements TransportInterface
             $this->extractHeaders($message),
             $this->extractAttachments($message),
             $this->linkTrackingDirective($message),
-            $this->extractMetadata($message)
+            $this->extractMetadata($message),
         );
     }
 
@@ -90,7 +90,7 @@ class PostmarkTransport implements TransportInterface
         $fromAddress = $from->rewind();
         if (! $fromAddress instanceof AddressInterface) {
             throw new InvalidArgument(
-                'A from address has not been specified'
+                'A from address has not been specified',
             );
         }
 
@@ -101,7 +101,7 @@ class PostmarkTransport implements TransportInterface
     {
         $emails = array_map(
             static fn (AddressInterface $address): string => $address->toString(),
-            iterator_to_array($list)
+            iterator_to_array($list),
         );
 
         $value = implode(',', $emails);
@@ -198,7 +198,7 @@ class PostmarkTransport implements TransportInterface
                 base64_encode($part->getRawContent()),
                 $part->filename,
                 $part->type,
-                $part->getId()
+                $part->getId(),
             );
             assert($postmarkAttachment instanceof PostmarkAttachment);
             $data[] = $postmarkAttachment;

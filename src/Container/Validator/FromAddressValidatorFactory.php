@@ -13,7 +13,7 @@ class FromAddressValidatorFactory
     public function __invoke(ContainerInterface $container): FromAddressValidator
     {
         return new FromAddressValidator(
-            $container->get(PermittedSenders::class)
+            $container->get(PermittedSenders::class),
         );
     }
 }

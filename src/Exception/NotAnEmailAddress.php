@@ -14,7 +14,7 @@ final class NotAnEmailAddress extends InvalidArgumentException
     {
         return new self(sprintf(
             'The value "%s" is not a valid email address',
-            $invalidValue
+            $invalidValue,
         ));
     }
 }

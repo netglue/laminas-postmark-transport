@@ -45,7 +45,7 @@ class NotSuppressedTest extends TestCase
         self::assertArrayHasKey(NotSuppressed::IS_SUPPRESSED, $this->validator->getMessages());
         self::assertStringContainsString(
             'me@example.com',
-            $this->validator->getMessages()[NotSuppressed::IS_SUPPRESSED]
+            $this->validator->getMessages()[NotSuppressed::IS_SUPPRESSED],
         );
     }
 

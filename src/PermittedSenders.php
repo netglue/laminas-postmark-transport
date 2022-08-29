@@ -73,7 +73,7 @@ class PermittedSenders
         }
 
         throw new InvalidArgumentException(
-            'The value provided is neither a valid email address, nor a valid hostname'
+            'The value provided is neither a valid email address, nor a valid hostname',
         );
     }
 

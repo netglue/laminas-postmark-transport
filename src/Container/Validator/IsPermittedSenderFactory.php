@@ -13,7 +13,7 @@ final class IsPermittedSenderFactory
     public function __invoke(ContainerInterface $container): IsPermittedSender
     {
         return new IsPermittedSender(
-            $container->get(PermittedSenders::class)
+            $container->get(PermittedSenders::class),
         );
     }
 }
