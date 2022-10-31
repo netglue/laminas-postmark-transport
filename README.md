@@ -1,7 +1,7 @@
 # Postmark Mail Transport for Laminas
 
 ![PHPUnit Test Suite](https://github.com/netglue/laminas-postmark-transport/workflows/Continuous%20Integration/badge.svg)
-[![codecov](https://codecov.io/gh/netglue/laminas-postmark-transport/branch/main/graph/badge.svg)](https://codecov.io/gh/netglue/laminas-postmark-transport)
+[![Type Coverage](https://shepherd.dev/github/netglue/laminas-postmark-transport/coverage.svg)](https://shepherd.dev/github/netglue/laminas-postmark-transport)
 
 ### Introduction
 
@@ -58,4 +58,3 @@ Hopefully the following configuration should illuminate what's required...
 ```
 
 Finally, this lib also has a dependency on [netglue/laminas-mail-utils](https://github.com/netglue/laminas-mail-utils) which is primarily a collection of more generic validators for mail messages and message behaviours that are intended for use with other vendors such as SparkPost, MailGun etc. If/when you build your custom validator chain, there are a bunch of validators there that might be useful.
-

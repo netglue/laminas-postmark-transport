@@ -17,7 +17,7 @@ use Netglue\Mail\Validator\TotalReplyToCount;
 /** @psalm-suppress PropertyNotSetInConstructor */
 final class MessageValidator extends ValidatorChain
 {
-    public function __construct(?ValidatorPluginManager $pluginManager = null)
+    public function __construct(ValidatorPluginManager|null $pluginManager = null)
     {
         parent::__construct();
         if ($pluginManager) {

@@ -34,14 +34,10 @@ class PostmarkTransport implements TransportInterface
 {
     public const MAX_RECIPIENT_COUNT = 50;
 
-    private PostmarkClient $client;
-
-    private ValidatorInterface $messageValidator;
-
-    public function __construct(PostmarkClient $client, ValidatorInterface $messageValidator)
-    {
-        $this->client = $client;
-        $this->messageValidator = $messageValidator;
+    public function __construct(
+        private PostmarkClient $client,
+        private ValidatorInterface $messageValidator,
+    ) {
     }
 
     public function send(Message $message): void
@@ -97,7 +93,7 @@ class PostmarkTransport implements TransportInterface
         return $fromAddress->toString();
     }
 
-    private function toAddressList(AddressList $list): ?string
+    private function toAddressList(AddressList $list): string|null
     {
         $emails = array_map(
             static fn (AddressInterface $address): string => $address->toString(),
@@ -109,7 +105,7 @@ class PostmarkTransport implements TransportInterface
         return empty($value) ? null : $value;
     }
 
-    private function extractHtmlBody(MimeMessage $message): ?string
+    private function extractHtmlBody(MimeMessage $message): string|null
     {
         foreach ($message->getParts() as $part) {
             if ($part->type === 'text/html' && $part->disposition !== Mime::DISPOSITION_ATTACHMENT) {
@@ -120,7 +116,7 @@ class PostmarkTransport implements TransportInterface
         return null;
     }
 
-    private function extractTextBody(MimeMessage $message): ?string
+    private function extractTextBody(MimeMessage $message): string|null
     {
         foreach ($message->getParts() as $part) {
             if ($part->type === 'text/plain' && $part->disposition !== Mime::DISPOSITION_ATTACHMENT) {
@@ -131,12 +127,12 @@ class PostmarkTransport implements TransportInterface
         return null;
     }
 
-    private function getTag(Message $message): ?string
+    private function getTag(Message $message): string|null
     {
         return $message instanceof TaggableMessage ? $message->getTag() : null;
     }
 
-    private function replyTo(Message $message): ?string
+    private function replyTo(Message $message): string|null
     {
         $list = iterator_to_array($message->getReplyTo(), false);
         $address = $list[0] ?? null;
@@ -145,7 +141,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return string[] */
-    private function extractHeaders(Message $message): ?array
+    private function extractHeaders(Message $message): array|null
     {
         $filtered = $this->filterHeaders($message);
         /**
@@ -181,7 +177,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return list<PostmarkAttachment>|null */
-    private function extractAttachments(Message $message): ?array
+    private function extractAttachments(Message $message): array|null
     {
         $body = $message->getBody();
         if (! $body instanceof MimeMessage) {
@@ -208,7 +204,7 @@ class PostmarkTransport implements TransportInterface
     }
 
     /** @return mixed[] */
-    private function extractMetadata(Message $message): ?array
+    private function extractMetadata(Message $message): array|null
     {
         if (! $message instanceof KeyValueMetadata) {
             return null;
@@ -219,7 +215,7 @@ class PostmarkTransport implements TransportInterface
         return $data === [] ? null : $data;
     }
 
-    private function linkTrackingDirective(Message $message): ?string
+    private function linkTrackingDirective(Message $message): string|null
     {
         if (! $message instanceof PostmarkLinkTracking) {
             return null;

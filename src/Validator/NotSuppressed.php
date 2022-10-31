@@ -16,8 +16,6 @@ final class NotSuppressed extends AbstractValidator
     public const IS_SUPPRESSED = 'IsSuppressed';
     public const NOT_VALID_EMAIL = 'NotValidEmailAddress';
 
-    private SuppressionList $suppressionList;
-
     /** @var string[] */
     protected $messageTemplates = [
         self::NOT_STRING => 'Expected a string',
@@ -25,10 +23,9 @@ final class NotSuppressed extends AbstractValidator
         self::NOT_VALID_EMAIL => '"%value%" is not a valid email address',
     ];
 
-    public function __construct(SuppressionList $suppressionList)
+    public function __construct(private SuppressionList $suppressionList)
     {
         parent::__construct();
-        $this->suppressionList = $suppressionList;
     }
 
     /** @inheritDoc */

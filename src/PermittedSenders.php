@@ -24,13 +24,8 @@ class PermittedSenders
     public const SENDER_LIST_CACHE_KEY = 'PostmarkSenders';
     private const MAX_PER_REQUEST = 500;
 
-    private PostmarkAdminClient $client;
-    private CacheItemPoolInterface $cache;
-
-    public function __construct(PostmarkAdminClient $client, CacheItemPoolInterface $cache)
+    public function __construct(private PostmarkAdminClient $client, private CacheItemPoolInterface $cache)
     {
-        $this->cache = $cache;
-        $this->client = $client;
     }
 
     public function isPermittedSender(string $emailAddressOrHostname): bool

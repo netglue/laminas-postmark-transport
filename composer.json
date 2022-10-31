@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "php": "^7.4 || ~8.0 || ~8.1",
+        "php": "~8.0 || ~8.1 || ~8.2",
         "laminas/laminas-mail": "^2.11.0",
         "laminas/laminas-mime": "^2.9.1",
         "laminas/laminas-validator": "^2.23.0",
@@ -39,10 +39,9 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "^10.0",
-        "laminas/laminas-config-aggregator": "^1.9",
-        "laminas/laminas-db": "^2.15",
-        "laminas/laminas-servicemanager": "^3.17",
-        "lctrs/psalm-psr-container-plugin": "^1.6.0",
+        "laminas/laminas-config-aggregator": "^1.11",
+        "laminas/laminas-servicemanager": "^3.19",
+        "lctrs/psalm-psr-container-plugin": "^1.8",
         "phpunit/phpunit": "^9.5.26",
         "psalm/plugin-phpunit": "^0.17.0",
         "roave/security-advisories": "dev-latest",

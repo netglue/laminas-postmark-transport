@@ -16,8 +16,6 @@ final class IsPermittedSender extends AbstractValidator
     public const NOT_PERMITTED = 'NotPermitted';
     public const NOT_VALID_EMAIL = 'NotValidEmailAddress';
 
-    private PermittedSenders $permittedSenders;
-
     /** @var string[] */
     protected $messageTemplates = [
         self::NOT_STRING => 'Expected a string',
@@ -25,9 +23,8 @@ final class IsPermittedSender extends AbstractValidator
         self::NOT_VALID_EMAIL => '"%value%" is not a valid email address',
     ];
 
-    public function __construct(PermittedSenders $permittedSenders)
+    public function __construct(private PermittedSenders $permittedSenders)
     {
-        $this->permittedSenders = $permittedSenders;
         parent::__construct();
     }
 

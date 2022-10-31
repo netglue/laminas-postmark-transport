@@ -15,8 +15,6 @@ class FromAddressValidator extends IsMessage
     public const MISSING_FROM = 'MissingFrom';
     public const NOT_PERMITTED = 'NotPermitted';
 
-    private PermittedSenders $permittedSenders;
-
     /** @var string[] */
     protected $messageTemplates = [
         self::NOT_MESSAGE => 'Expected a Message object',
@@ -30,9 +28,8 @@ class FromAddressValidator extends IsMessage
     /** @var string[] */
     protected $messageVariables = ['email' => 'email'];
 
-    public function __construct(PermittedSenders $permittedSenders)
+    public function __construct(private PermittedSenders $permittedSenders)
     {
-        $this->permittedSenders = $permittedSenders;
         parent::__construct();
     }
 

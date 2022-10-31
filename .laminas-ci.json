@@ -1,14 +1,6 @@
 {
-    "extensions": [
-        "pcov"
-    ],
+    "extensions": [],
     "ini": [],
-    "additional_checks": [
-        {
-            "name": "Coverage",
-            "job": {
-                "command": "vendor/bin/phpunit --coverage-clover coverage.xml"
-            }
-        }
-    ]
+    "additional_checks": [],
+    "stablePHP": "8.0"
 }
