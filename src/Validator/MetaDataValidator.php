@@ -70,8 +70,7 @@ class MetaDataValidator extends IsMessage
         return true;
     }
 
-    /** @param mixed $value */
-    private function validateMetaData(string $key, $value): bool
+    private function validateMetaData(string $key, mixed $value): bool
     {
         $this->key = $key;
         if (strlen($key) > self::MAX_METADATA_KEY_LENGTH) {

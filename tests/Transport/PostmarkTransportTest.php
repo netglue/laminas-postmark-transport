@@ -130,16 +130,13 @@ class PostmarkTransportTest extends TestCase
     private function assertHeaderArrayContainsHeaderName(array $headers, string $headerName): void
     {
         self::assertArrayHasKey($headerName, $headers, sprintf(
-            'The header named %s was not not found in the input',
+            'The header named %s was not found in the input',
             $headerName,
         ));
     }
 
-    /**
-     * @param mixed[] $headers
-     * @param mixed   $expect
-     */
-    private function assertHeaderEqualsValue(array $headers, string $headerName, $expect): void
+    /** @param mixed[] $headers */
+    private function assertHeaderEqualsValue(array $headers, string $headerName, mixed $expect): void
     {
         $this->assertHeaderArrayContainsHeaderName($headers, $headerName);
         self::assertEquals($expect, $headers[$headerName]);

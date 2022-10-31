@@ -5,7 +5,7 @@
       <code>ValidatorChain</code>
     </InvalidExtendClass>
     <MethodSignatureMismatch occurrences="1">
-      <code>public function __construct(?ValidatorPluginManager $pluginManager = null)</code>
+      <code>public function __construct(ValidatorPluginManager|null $pluginManager = null)</code>
     </MethodSignatureMismatch>
   </file>
 </files>

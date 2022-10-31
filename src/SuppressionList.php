@@ -19,14 +19,10 @@ class SuppressionList
 {
     public const SUPPRESSION_LIST_CACHE_KEY = 'PostmarkSuppressionList';
 
-    private PostmarkClient $client;
-    private CacheItemPoolInterface $cache;
     private EmailAddress $validator;
 
-    public function __construct(PostmarkClient $client, CacheItemPoolInterface $cache)
+    public function __construct(private PostmarkClient $client, private CacheItemPoolInterface $cache)
     {
-        $this->cache = $cache;
-        $this->client = $client;
         $this->validator = new EmailAddress();
     }
 
@@ -68,7 +64,7 @@ class SuppressionList
     }
 
     /** @return list<string> */
-    private function remoteList(?string $emailQuery = null): array
+    private function remoteList(string|null $emailQuery = null): array
     {
         $results = [];
         $response = $this->client->getSuppressions(null, null, null, null, $emailQuery);
