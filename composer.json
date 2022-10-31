@@ -40,7 +40,6 @@
     "require-dev": {
         "doctrine/coding-standard": "^10.0",
         "laminas/laminas-config-aggregator": "^1.11",
-        "laminas/laminas-db": "^2.15",
         "laminas/laminas-servicemanager": "^3.19",
         "lctrs/psalm-psr-container-plugin": "^1.8",
         "phpunit/phpunit": "^9.5.26",
