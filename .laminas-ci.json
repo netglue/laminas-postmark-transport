@@ -10,5 +10,6 @@
                 "command": "vendor/bin/phpunit --coverage-clover coverage.xml"
             }
         }
-    ]
+    ],
+    "stablePHP": "8.0"
 }
