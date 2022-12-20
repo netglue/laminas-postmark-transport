@@ -27,7 +27,7 @@
         "myclabs/php-enum": "^1.8.4",
         "netglue/laminas-mail-utils": "^0",
         "netglue/psr-container-postmark": "^1.6.0",
-        "psr/cache": "^1.0",
+        "psr/cache": "^1.0 || ^2.0.0 || ^3.0.0",
         "wildbit/postmark-php": "^4.0"
     },
     "autoload": {
@@ -48,7 +48,7 @@
         "phpunit/phpunit": "^9.5.27",
         "psalm/plugin-phpunit": "^0.18.4",
         "roave/security-advisories": "dev-latest",
-        "symfony/cache": "^5.4.15",
+        "symfony/cache": "^5.4.15 || ^6",
         "vimeo/psalm": "^5.4"
     },
     "conflict": {
