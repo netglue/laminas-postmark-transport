@@ -36,6 +36,7 @@ class PostmarkTransportTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->client = $this->createMock(PostmarkClient::class);
         $this->validator = new MessageValidator();
     }

@@ -22,6 +22,7 @@ class PermittedSendersTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->client = $this->createMock(PostmarkAdminClient::class);
         $this->cache = new ArrayAdapter();
     }
