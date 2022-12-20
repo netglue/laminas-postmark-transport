@@ -14,6 +14,9 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "laminas/laminas-component-installer": true
+        },
+        "platform": {
+            "php": "8.0.99"
         }
     },
     "require": {
