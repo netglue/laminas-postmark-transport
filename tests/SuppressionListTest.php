@@ -23,6 +23,7 @@ class SuppressionListTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->client = $this->createMock(PostmarkClient::class);
         $this->cache = new ArrayAdapter();
         $this->list = new SuppressionList($this->client, $this->cache);

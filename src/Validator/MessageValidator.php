@@ -20,6 +20,7 @@ final class MessageValidator extends ValidatorChain
     public function __construct(ValidatorPluginManager|null $pluginManager = null)
     {
         parent::__construct();
+
         if ($pluginManager) {
             $this->setPluginManager($pluginManager);
         }

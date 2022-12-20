@@ -18,6 +18,7 @@ class NotSuppressedTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->list = $this->createMock(SuppressionList::class);
         $this->validator = new NotSuppressed($this->list);
     }

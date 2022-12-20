@@ -25,6 +25,7 @@ class MetaDataValidatorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->validator = new MetaDataValidator();
         $this->message = new class extends Message implements KeyValueMetadata {
             use KeyValueMetadataBehaviour;

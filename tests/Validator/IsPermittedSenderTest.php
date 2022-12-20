@@ -18,6 +18,7 @@ class IsPermittedSenderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->permittedSenders = $this->createMock(PermittedSenders::class);
         $this->validator = new IsPermittedSender($this->permittedSenders);
     }

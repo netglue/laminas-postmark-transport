@@ -18,6 +18,7 @@ class FromAddressValidatorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->permittedSenders = $this->createMock(PermittedSenders::class);
     }
 

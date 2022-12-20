@@ -19,9 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
-use function assert;
-use function is_array;
-
+/** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 class ServiceManagerIntegrationTest extends TestCase
 {
     private ServiceManager $serviceManager;
@@ -44,11 +42,11 @@ class ServiceManagerIntegrationTest extends TestCase
             new ArrayProvider($config),
         ]);
         $config = $aggregator->getMergedConfig();
-        assert(is_array($config['dependencies']));
-        /** @psalm-suppress MixedArrayAssignment */
-        $config['dependencies']['services']['config'] = $config;
-        /** @psalm-suppress MixedArgumentTypeCoercion */
-        $this->serviceManager = new ServiceManager($config['dependencies']);
+        /** @psalm-var ServiceManagerConfiguration $dependencies */
+        $dependencies = $config['dependencies'] ?? [];
+        unset($dependencies['services']['config']);
+        $dependencies['services']['config'] = $config;
+        $this->serviceManager = new ServiceManager($dependencies);
         $this->serviceManager->setService('cache', $this->setUpCache());
     }
 
