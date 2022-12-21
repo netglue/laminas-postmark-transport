@@ -886,16 +886,16 @@
         },
         {
             "name": "netglue/psr-container-postmark",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/netglue/psr-container-postmark.git",
-                "reference": "c470788e8d06aa339c4d0d51e559af06d1ded51a"
+                "reference": "0acb63408f9c74b5e2e1a8dc7e9b22179277f92e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netglue/psr-container-postmark/zipball/c470788e8d06aa339c4d0d51e559af06d1ded51a",
-                "reference": "c470788e8d06aa339c4d0d51e559af06d1ded51a",
+                "url": "https://api.github.com/repos/netglue/psr-container-postmark/zipball/0acb63408f9c74b5e2e1a8dc7e9b22179277f92e",
+                "reference": "0acb63408f9c74b5e2e1a8dc7e9b22179277f92e",
                 "shasum": ""
             },
             "require": {
@@ -904,13 +904,13 @@
                 "wildbit/postmark-php": "^2.9||^3.0||^4.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^10.0",
-                "laminas/laminas-servicemanager": "^3.19",
-                "lctrs/psalm-psr-container-plugin": "^1.8",
-                "phpunit/phpunit": "^9.5.26",
-                "psalm/plugin-phpunit": "^0.17.0",
+                "doctrine/coding-standard": "^11.0",
+                "laminas/laminas-servicemanager": "^3.20",
+                "lctrs/psalm-psr-container-plugin": "^1.9.0",
+                "phpunit/phpunit": "^9.5.27",
+                "psalm/plugin-phpunit": "^0.18.4",
                 "roave/security-advisories": "dev-latest",
-                "vimeo/psalm": "^4.29"
+                "vimeo/psalm": "^5.4"
             },
             "type": "library",
             "extra": {
@@ -936,9 +936,9 @@
             "description": "Postmark client factories for PSR Containers",
             "support": {
                 "issues": "https://github.com/netglue/psr-container-postmark/issues",
-                "source": "https://github.com/netglue/psr-container-postmark/tree/1.8.0"
+                "source": "https://github.com/netglue/psr-container-postmark/tree/1.9.0"
             },
-            "time": "2022-10-31T12:11:15+00:00"
+            "time": "2022-12-20T11:56:51+00:00"
         },
         {
             "name": "psr/cache",
@@ -3233,16 +3233,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.15.2",
+            "version": "1.15.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "5941477f100993652218928039d530b75a13a9ca"
+                "reference": "61800f71a5526081d1b5633766aa88341f1ade76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/5941477f100993652218928039d530b75a13a9ca",
-                "reference": "5941477f100993652218928039d530b75a13a9ca",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/61800f71a5526081d1b5633766aa88341f1ade76",
+                "reference": "61800f71a5526081d1b5633766aa88341f1ade76",
                 "shasum": ""
             },
             "require": {
@@ -3272,9 +3272,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.15.2"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.15.3"
             },
-            "time": "2022-12-16T06:42:48+00:00"
+            "time": "2022-12-20T20:56:55+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
