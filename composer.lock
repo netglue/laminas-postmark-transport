@@ -395,16 +395,16 @@
         },
         {
             "name": "laminas/laminas-mail",
-            "version": "2.21.0",
+            "version": "2.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mail.git",
-                "reference": "451b33522a4e7f17e097e45fceea4752c86a2ace"
+                "reference": "6e3d32a81dc28c233f4e1071564f75e151fcaca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/451b33522a4e7f17e097e45fceea4752c86a2ace",
-                "reference": "451b33522a4e7f17e097e45fceea4752c86a2ace",
+                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/6e3d32a81dc28c233f4e1071564f75e151fcaca6",
+                "reference": "6e3d32a81dc28c233f4e1071564f75e151fcaca6",
                 "shasum": ""
             },
             "require": {
@@ -468,7 +468,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-05T18:42:59+00:00"
+            "time": "2023-01-06T07:11:10+00:00"
         },
         {
             "name": "laminas/laminas-mime",
@@ -2356,20 +2356,20 @@
         },
         {
             "name": "doctrine/coding-standard",
-            "version": "11.0.0",
+            "version": "11.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/coding-standard.git",
-                "reference": "b6660e1e57dd1c0a38d335b7f6495b0c06abc270"
+                "reference": "4bcfa9d922e13cb3b8078d4752e3ba276f959c88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/coding-standard/zipball/b6660e1e57dd1c0a38d335b7f6495b0c06abc270",
-                "reference": "b6660e1e57dd1c0a38d335b7f6495b0c06abc270",
+                "url": "https://api.github.com/repos/doctrine/coding-standard/zipball/4bcfa9d922e13cb3b8078d4752e3ba276f959c88",
+                "reference": "4bcfa9d922e13cb3b8078d4752e3ba276f959c88",
                 "shasum": ""
             },
             "require": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2 || ^0.7",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2 || ^0.7 || ^1.0.0",
                 "php": "^7.2 || ^8.0",
                 "slevomat/coding-standard": "^8.6.2",
                 "squizlabs/php_codesniffer": "^3.7"
@@ -2406,9 +2406,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/coding-standard/issues",
-                "source": "https://github.com/doctrine/coding-standard/tree/11.0.0"
+                "source": "https://github.com/doctrine/coding-standard/tree/11.1.0"
             },
-            "time": "2022-12-11T22:31:43+00:00"
+            "time": "2023-01-06T09:12:24+00:00"
         },
         {
             "name": "doctrine/instantiator",
