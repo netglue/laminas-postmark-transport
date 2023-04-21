@@ -78,8 +78,6 @@ class PermittedSenders
      * @return list<string>
      *
      * @throws CacheException If any problems occur setting/getting items in the cache.
-     *
-     * @psalm-suppress InvalidThrow
      */
     public function domains(): iterable
     {
@@ -144,8 +142,6 @@ class PermittedSenders
      * @return list<string>
      *
      * @throws CacheException If any problems occur setting/getting items in the cache.
-     *
-     * @psalm-suppress InvalidThrow
      */
     public function senders(): iterable
     {

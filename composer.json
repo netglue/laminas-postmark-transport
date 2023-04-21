@@ -16,11 +16,11 @@
             "laminas/laminas-component-installer": true
         },
         "platform": {
-            "php": "8.0.99"
+            "php": "8.1.99"
         }
     },
     "require": {
-        "php": "~8.0 || ~8.1 || ~8.2",
+        "php": "~8.1 || ~8.2",
         "laminas/laminas-mail": "^2.11.0",
         "laminas/laminas-mime": "^2.9.1",
         "laminas/laminas-validator": "^2.23.0",
@@ -41,15 +41,15 @@
         }
     },
     "require-dev": {
-        "doctrine/coding-standard": "^11.0",
+        "doctrine/coding-standard": "^11.1",
         "laminas/laminas-config-aggregator": "^1.13",
         "laminas/laminas-servicemanager": "^3.20",
         "lctrs/psalm-psr-container-plugin": "^1.9",
-        "phpunit/phpunit": "^9.5.27",
+        "phpunit/phpunit": "^9.6.7",
         "psalm/plugin-phpunit": "^0.18.4",
         "roave/security-advisories": "dev-latest",
-        "symfony/cache": "^5.4.15 || ^6",
-        "vimeo/psalm": "^5.4"
+        "symfony/cache": "^5.4.15 || ^6.2.8",
+        "vimeo/psalm": "^5.9"
     },
     "conflict": {
         "guzzlehttp/guzzle": "^6.0"
