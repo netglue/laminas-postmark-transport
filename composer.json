@@ -45,7 +45,7 @@
         "laminas/laminas-config-aggregator": "^1.13",
         "laminas/laminas-servicemanager": "^3.20",
         "lctrs/psalm-psr-container-plugin": "^1.9",
-        "phpunit/phpunit": "^9.6.7",
+        "phpunit/phpunit": "^10.1.1",
         "psalm/plugin-phpunit": "^0.18.4",
         "roave/security-advisories": "dev-latest",
         "symfony/cache": "^5.4.15 || ^6.2.8",

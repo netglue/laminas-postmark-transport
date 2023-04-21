@@ -29,7 +29,7 @@ use function sprintf;
 class PostmarkTransportTest extends TestCase
 {
     /** @var PostmarkClient&MockObject */
-    private $client;
+    private PostmarkClient $client;
 
     private MessageValidator $validator;
 
@@ -80,7 +80,7 @@ class PostmarkTransportTest extends TestCase
     }
 
     /** @return Generator<string, array{0: PostmarkMessage}> */
-    public function getMessage(): Generator
+    public static function getMessage(): Generator
     {
         $textContent = 'Text Body';
         $htmlContent = '<p>HTML Body</p>';
