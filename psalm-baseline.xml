@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="src/Validator/MessageValidator.php">
-    <InvalidExtendClass occurrences="1">
+    <InvalidExtendClass>
       <code>ValidatorChain</code>
     </InvalidExtendClass>
-    <MethodSignatureMismatch occurrences="1">
+    <MethodSignatureMismatch>
       <code>public function __construct(ValidatorPluginManager|null $pluginManager = null)</code>
     </MethodSignatureMismatch>
   </file>

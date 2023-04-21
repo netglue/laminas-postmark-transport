@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netglue\MailTest\Postmark\Container;
 
 use Netglue\Mail\Postmark\Container\PermittedSendersFactory;
+use Netglue\Mail\Postmark\PermittedSenders;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkAdminClient;
@@ -15,7 +16,7 @@ use RuntimeException;
 class PermittedSendersFactoryTest extends TestCase
 {
     /** @var MockObject&ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
     protected function setUp(): void
     {
@@ -75,7 +76,7 @@ class PermittedSendersFactoryTest extends TestCase
             ->method('has')
             ->with('foo')
             ->willReturn(true);
-        (new PermittedSendersFactory())($this->container);
-        self::assertTrue(true);
+        $senders = (new PermittedSendersFactory())($this->container);
+        self::assertInstanceOf(PermittedSenders::class, $senders);
     }
 }

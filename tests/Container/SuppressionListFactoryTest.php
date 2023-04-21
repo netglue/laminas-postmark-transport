@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netglue\MailTest\Postmark\Container;
 
 use Netglue\Mail\Postmark\Container\SuppressionListFactory;
+use Netglue\Mail\Postmark\SuppressionList;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Postmark\PostmarkClient;
@@ -35,6 +36,7 @@ class SuppressionListFactoryTest extends TestCase
             ]);
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('A cache service must be defined in your container configuration');
-        (new SuppressionListFactory())($this->container);
+        $list = (new SuppressionListFactory())($this->container);
+        self::assertInstanceOf(SuppressionList::class, $list);
     }
 }
