@@ -3,11 +3,11 @@
 ![PHPUnit Test Suite](https://github.com/netglue/laminas-postmark-transport/workflows/Continuous%20Integration/badge.svg)
 [![Type Coverage](https://shepherd.dev/github/netglue/laminas-postmark-transport/coverage.svg)](https://shepherd.dev/github/netglue/laminas-postmark-transport)
 
-### Introduction
+## Introduction
 
 This lib provides a mail transport for use with [Laminas\Mail](https://github.com/laminas/laminas-mail) and [Postmark’s transactional email service](https://postmarkapp.com). It also provides email message validators to help make sure that messages you send via Postmark are acceptable - I'm quite pleased with the validator that checks the from address is listed in the verified postmark domains on your account, or amongst the [configured sender signatures](https://postmarkapp.com/manual#step-2-set-up-the-address-you-plan-to-send-from).
 
-### Installation
+## Installation
 
 ```bash
 composer require netglue/laminas-postmark-transport
@@ -17,9 +17,10 @@ If you are using this in an app built with Expressive/Mezzio then the config pro
 
 One of the dependencies is a tiny package [netglue/psr-container-postmark](https://github.com/netglue/psr-container-postmark) - this is what's used to configure the official Postmark API client so you can find some additional info in the README in that lib for configuring your account and server tokens for the service.
 
-### Usage
+## Usage
 
 By default, assuming use of Laminas Service Manager for your DIC, you will be able to retrieve your transport using either:
+
 ```php
 $transport = $container->get(\Laminas\Mail\Transport\TransportInterface::class);
 // or
@@ -42,9 +43,9 @@ There is a default validator chain that you can inspect covering most of these c
 
 So, to use this validator, you'd need to:
 
- - Configure the access token for the account API
- - Inject a different validator chain into the transport
- - Provide the name of a PSR-6 compatible cache that can be retrieved from the container
+- Configure the access token for the account API
+- Inject a different validator chain into the transport
+- Provide the name of a PSR-6 compatible cache that can be retrieved from the container
 
 Hopefully the following configuration should illuminate what's required...
 
