@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1575ea22f26503705ef771685943883",
+    "content-hash": "b880c50ca6ba5048c5a37614dc93b669",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -877,31 +877,30 @@
         },
         {
             "name": "netglue/psr-container-postmark",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/netglue/psr-container-postmark.git",
-                "reference": "13c46463fb48dc4af76fc673b8e8397324eca4f8"
+                "reference": "cf319ac0204f734710bdfda3a76abfcea8551e80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netglue/psr-container-postmark/zipball/13c46463fb48dc4af76fc673b8e8397324eca4f8",
-                "reference": "13c46463fb48dc4af76fc673b8e8397324eca4f8",
+                "url": "https://api.github.com/repos/netglue/psr-container-postmark/zipball/cf319ac0204f734710bdfda3a76abfcea8551e80",
+                "reference": "cf319ac0204f734710bdfda3a76abfcea8551e80",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1 || ~8.2",
+                "php": "~8.1 || ~8.2 || ~8.3",
                 "psr/container": "^1.0.0 || ^2.0.0",
-                "wildbit/postmark-php": "^2.9||^3.0||^4.0"
+                "wildbit/postmark-php": "^2.9||^3.0||^4.0 || ^6.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11.1",
-                "laminas/laminas-servicemanager": "^3.20",
-                "lctrs/psalm-psr-container-plugin": "^1.9.0",
-                "phpunit/phpunit": "^10.0.16",
+                "doctrine/coding-standard": "^12.0",
+                "laminas/laminas-servicemanager": "^3.22.1",
+                "phpunit/phpunit": "^10.5.5",
                 "psalm/plugin-phpunit": "^0.18.4",
                 "roave/security-advisories": "dev-latest",
-                "vimeo/psalm": "^5.8"
+                "vimeo/psalm": "^5.18.0"
             },
             "type": "library",
             "extra": {
@@ -927,9 +926,9 @@
             "description": "Postmark client factories for PSR Containers",
             "support": {
                 "issues": "https://github.com/netglue/psr-container-postmark/issues",
-                "source": "https://github.com/netglue/psr-container-postmark/tree/1.10.0"
+                "source": "https://github.com/netglue/psr-container-postmark/tree/1.11.0"
             },
-            "time": "2023-03-16T10:04:50+00:00"
+            "time": "2024-01-05T00:17:32+00:00"
         },
         {
             "name": "psr/cache",
@@ -2682,84 +2681,6 @@
                 }
             ],
             "time": "2023-09-19T12:35:37+00:00"
-        },
-        {
-            "name": "lctrs/psalm-psr-container-plugin",
-            "version": "1.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Lctrs/psalm-psr-container-plugin.git",
-                "reference": "2a3608a19a555a1589c12a97ff6f814a780def48"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Lctrs/psalm-psr-container-plugin/zipball/2a3608a19a555a1589c12a97ff6f814a780def48",
-                "reference": "2a3608a19a555a1589c12a97ff6f814a780def48",
-                "shasum": ""
-            },
-            "require": {
-                "ext-simplexml": "*",
-                "nikic/php-parser": "^4.15.2",
-                "php": ">=8.0.2 <8.3.0",
-                "psr/container": "^1.1.2 || ^2.0.2",
-                "vimeo/psalm": "^5.0.0"
-            },
-            "require-dev": {
-                "codeception/codeception": "4.2.2",
-                "codeception/module-asserts": "2.0.1",
-                "codeception/module-cli": "1.1.1",
-                "codeception/module-filesystem": "1.0.3",
-                "doctrine/coding-standard": "9.0.0",
-                "ergebnis/composer-normalize": "2.28.3",
-                "ergebnis/license": "2.1.0",
-                "phpstan/extension-installer": "1.2.0",
-                "phpstan/phpstan": "1.9.2",
-                "phpstan/phpstan-deprecation-rules": "1.0.0",
-                "phpstan/phpstan-phpunit": "1.2.2",
-                "phpstan/phpstan-strict-rules": "1.4.4",
-                "phpunit/phpunit": "9.5.26",
-                "psalm/plugin-phpunit": "0.18.3",
-                "symfony/yaml": "5.4.16",
-                "weirdan/codeception-psalm-module": "0.13.1"
-            },
-            "type": "psalm-plugin",
-            "extra": {
-                "psalm": {
-                    "pluginClass": "Lctrs\\PsalmPsrContainerPlugin\\Plugin"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lctrs\\PsalmPsrContainerPlugin\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jérôme Parmentier",
-                    "email": "jerome@prmntr.me"
-                }
-            ],
-            "description": "Let Psalm understand better psr11 containers",
-            "homepage": "https://github.com/Lctrs/psalm-psr-container-plugin",
-            "keywords": [
-                "code",
-                "container",
-                "inspection",
-                "php",
-                "psalm",
-                "psalm-plugin",
-                "psr",
-                "psr11"
-            ],
-            "support": {
-                "issues": "https://github.com/Lctrs/psalm-psr-container-plugin/issues",
-                "source": "https://github.com/Lctrs/psalm-psr-container-plugin"
-            },
-            "time": "2022-12-01T07:02:46+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -6595,7 +6516,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.1 || ~8.2"
+        "php": "~8.1 || ~8.2 || ~8.3"
     },
     "platform-dev": [],
     "platform-overrides": {
