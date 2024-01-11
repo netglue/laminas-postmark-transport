@@ -3712,12 +3712,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "b3fcb6d7942e8ad987f8cccc11bb2ba496789ce4"
+                "reference": "8883e39ebd80b4f8012431137ef48d928f3e954d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/b3fcb6d7942e8ad987f8cccc11bb2ba496789ce4",
-                "reference": "b3fcb6d7942e8ad987f8cccc11bb2ba496789ce4",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/8883e39ebd80b4f8012431137ef48d928f3e954d",
+                "reference": "8883e39ebd80b4f8012431137ef48d928f3e954d",
                 "shasum": ""
             },
             "conflict": {
@@ -4003,7 +4003,8 @@
                 "lms/routes": "<2.1.1",
                 "localizationteam/l10nmgr": "<7.4|>=8,<8.7|>=9,<9.2",
                 "luyadev/yii-helpers": "<1.2.1",
-                "magento/community-edition": "<=2.4",
+                "magento/community-edition": "<2.4.2.0-patch1",
+                "magento/core": "<1.9.4.3-dev",
                 "magento/magento1ce": "<1.9.4.3-dev",
                 "magento/magento1ee": ">=1,<1.14.4.3-dev",
                 "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.2.0-patch2",
@@ -4112,9 +4113,10 @@
                 "phpxmlrpc/phpxmlrpc": "<4.9.2",
                 "pi/pi": "<=2.5",
                 "pimcore/admin-ui-classic-bundle": "<1.2.2",
-                "pimcore/customer-management-framework-bundle": "<3.4.2",
+                "pimcore/customer-management-framework-bundle": "<4.0.6",
                 "pimcore/data-hub": "<1.2.4",
                 "pimcore/demo": "<10.3",
+                "pimcore/ecommerce-framework-bundle": "<1.0.10",
                 "pimcore/perspective-editor": "<1.5.1",
                 "pimcore/pimcore": "<11.1.1",
                 "pixelfed/pixelfed": "<=0.11.4",
@@ -4429,7 +4431,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-09T18:04:23+00:00"
+            "time": "2024-01-10T22:04:04+00:00"
         },
         {
             "name": "sebastian/cli-parser",
