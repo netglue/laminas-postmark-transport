@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b880c50ca6ba5048c5a37614dc93b669",
+    "content-hash": "42ed13777aa94bad4123bd649f2d84cb",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -615,16 +615,16 @@
         },
         {
             "name": "laminas/laminas-stdlib",
-            "version": "3.18.0",
+            "version": "3.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "e85b29076c6216e7fc98e72b42dbe1bbc3b95ecf"
+                "reference": "6a192dd0882b514e45506f533b833b623b78fff3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/e85b29076c6216e7fc98e72b42dbe1bbc3b95ecf",
-                "reference": "e85b29076c6216e7fc98e72b42dbe1bbc3b95ecf",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/6a192dd0882b514e45506f533b833b623b78fff3",
+                "reference": "6a192dd0882b514e45506f533b833b623b78fff3",
                 "shasum": ""
             },
             "require": {
@@ -635,10 +635,10 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "^2.5",
-                "phpbench/phpbench": "^1.2.14",
-                "phpunit/phpunit": "^10.3.3",
+                "phpbench/phpbench": "^1.2.15",
+                "phpunit/phpunit": "^10.5.8",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.15.0"
+                "vimeo/psalm": "^5.20.0"
             },
             "type": "library",
             "autoload": {
@@ -670,7 +670,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-19T10:15:21+00:00"
+            "time": "2024-01-19T12:39:49+00:00"
         },
         {
             "name": "laminas/laminas-validator",
@@ -3497,16 +3497,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.7",
+            "version": "10.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e5c5b397a95cb0db013270a985726fcae93e61b8"
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e5c5b397a95cb0db013270a985726fcae93e61b8",
-                "reference": "e5c5b397a95cb0db013270a985726fcae93e61b8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
                 "shasum": ""
             },
             "require": {
@@ -3578,7 +3578,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.7"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.9"
             },
             "funding": [
                 {
@@ -3594,7 +3594,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-14T16:40:30+00:00"
+            "time": "2024-01-22T14:35:40+00:00"
         },
         {
             "name": "psalm/plugin-phpunit",
@@ -6347,16 +6347,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.19.1",
+            "version": "5.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "b9583493b08eb36259c0f6b746a787c4c9b3ac45"
+                "reference": "3f284e96c9d9be6fe6b15c79416e1d1903dcfef4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/b9583493b08eb36259c0f6b746a787c4c9b3ac45",
-                "reference": "b9583493b08eb36259c0f6b746a787c4c9b3ac45",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/3f284e96c9d9be6fe6b15c79416e1d1903dcfef4",
+                "reference": "3f284e96c9d9be6fe6b15c79416e1d1903dcfef4",
                 "shasum": ""
             },
             "require": {
@@ -6453,7 +6453,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2024-01-14T22:41:50+00:00"
+            "time": "2024-01-18T12:15:06+00:00"
         },
         {
             "name": "webimpress/safe-writer",

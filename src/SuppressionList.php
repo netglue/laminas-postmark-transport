@@ -76,7 +76,7 @@ class SuppressionList
         /** @var array<string, mixed> $suppression */
         foreach ($responseList as $suppression) {
             $email = $suppression['EmailAddress'] ?? null;
-            if (empty($email) || ! is_string($email)) {
+            if (! is_string($email) || $email === '') {
                 throw new UnexpectedValueException('Expected each suppression item to have a string EmailAddress attribute');
             }
 

@@ -44,8 +44,10 @@ class ServiceManagerIntegrationTest extends TestCase
         $config = $aggregator->getMergedConfig();
         /** @psalm-var ServiceManagerConfiguration $dependencies */
         $dependencies = $config['dependencies'] ?? [];
+        $dependencies['services'] ??= [];
         unset($dependencies['services']['config']);
         $dependencies['services']['config'] = $config;
+        /** @psalm-var ServiceManagerConfiguration $dependencies */
         $this->serviceManager = new ServiceManager($dependencies);
         $this->serviceManager->setService('cache', $this->setUpCache());
     }
