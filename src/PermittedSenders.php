@@ -15,6 +15,7 @@ use function count;
 use function explode;
 use function in_array;
 use function is_iterable;
+use function is_string;
 use function strtolower;
 use function trim;
 
@@ -32,11 +33,11 @@ class PermittedSenders
     {
         ['email' => $email, 'hostname' => $hostname] = $this->extractEmailAndHostname($emailAddressOrHostname);
 
-        if ($email && in_array($email, $this->senders(), true)) {
+        if ($email !== null && in_array($email, $this->senders(), true)) {
             return true;
         }
 
-        return $hostname && in_array($hostname, $this->domains(), true);
+        return in_array($hostname, $this->domains(), true);
     }
 
     /** @return array{email: non-empty-lowercase-string|null, hostname: lowercase-string} */
@@ -121,7 +122,7 @@ class PermittedSenders
             /** @var array<string, string> $domain */
             foreach ($domainList as $domain) {
                 $name = $domain['Name'] ?? null;
-                if (empty($name)) {
+                if (! is_string($name) || $name === '') {
                     throw new RuntimeException('One of the domains in the list does not have a name');
                 }
 
@@ -185,7 +186,7 @@ class PermittedSenders
             /** @var array<string, string> $sender */
             foreach ($senderList as $sender) {
                 $email = $sender['EmailAddress'] ?? null;
-                if (empty($email)) {
+                if (! is_string($email) || $email === '') {
                     throw new RuntimeException('One of the senders in the list does not have an email address');
                 }
 
