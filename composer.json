@@ -9,6 +9,7 @@
             "email": "george@net-glue.co.uk"
         }
     ],
+    "abandoned": true,
     "config": {
         "sort-packages": true,
         "allow-plugins": {

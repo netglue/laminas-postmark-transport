@@ -3,6 +3,9 @@
 ![PHPUnit Test Suite](https://github.com/netglue/laminas-postmark-transport/workflows/Continuous%20Integration/badge.svg)
 [![Type Coverage](https://shepherd.dev/github/netglue/laminas-postmark-transport/coverage.svg)](https://shepherd.dev/github/netglue/laminas-postmark-transport)
 
+> [!CAUTION]
+> This library is now abandoned because `laminas-mail` is abandoned
+
 ## Introduction
 
 This lib provides a mail transport for use with [Laminas\Mail](https://github.com/laminas/laminas-mail) and [Postmark’s transactional email service](https://postmarkapp.com). It also provides email message validators to help make sure that messages you send via Postmark are acceptable - I'm quite pleased with the validator that checks the from address is listed in the verified postmark domains on your account, or amongst the [configured sender signatures](https://postmarkapp.com/manual#step-2-set-up-the-address-you-plan-to-send-from).
